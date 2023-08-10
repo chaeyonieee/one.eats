@@ -8,8 +8,16 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="css/common.css" />
-    <script src="js/common.js"></script>
+    <link rel="stylesheet" href="${contextPath}/css/common.css" />
+    <script src="${contextPath}/js/common.js"></script>
+
+    <!--bootstrap-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
     <!-- Google Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
@@ -17,14 +25,46 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
     />
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/bootstrap.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/font-awesome.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/elegant-icons.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/nice-select.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/jquery-ui.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/owl.carousel.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/slicknav.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="${contextPath}/css/style.css"
+      type="text/css"
+    />
     <title><tiles:insertAttribute name="title"/></title>
   </head>
   <body>
@@ -32,15 +72,18 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
     <!-- <div id="preloder">
       <div class="loader"></div>
     </div> -->
+
     <div id="container">
-      <div id="header">
+      <div id="header" class="container-md">
         <tiles:insertAttribute name="header" />
       </div>
-      <div id="sidebar-left">
-        <tiles:insertAttribute name="side" />
-      </div>
-      <div id="content">
-        <tiles:insertAttribute name="body" />
+      <div class="container-md">
+        <div id="sidebar-left">
+          <tiles:insertAttribute name="side" />
+        </div>
+        <div id="content">
+          <tiles:insertAttribute name="body" />
+        </div>
       </div>
       <div id="footer">
         <tiles:insertAttribute name="footer" />
@@ -48,13 +91,14 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
     </div>
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="${contextPath}/js/jquery-3.3.1.min.js"></script>
+    <script src="${contextPath}/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/js/jquery.nice-select.min.js"></script>
+    <script src="${contextPath}/js/jquery-ui.min.js"></script>
+    <script src="${contextPath}/js/jquery.slicknav.js"></script>
+    <script src="${contextPath}/js/mixitup.min.js"></script>
+    <script src="${contextPath}/js/owl.carousel.min.js"></script>
+    <script src="${contextPath}/js/main.js"></script>
+    <script src="${contextPath}/js/jQueryRotate.js"></script>
   </body>
 </html>
