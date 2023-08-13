@@ -5,289 +5,6 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <% request.setCharacterEncoding("utf-8"); %>
 
-<style>
-  .css-1fttcpj {
-    display: flex;
-    flex-direction: column;
-  }
-  .css-1bhm8h2 {
-    display: flex;
-    flex: 1 1 0%;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-  }
-  .css-iqoq9n {
-    margin-top: 20px;
-  }
-  .css-e6zlnr {
-    display: flex;
-    flex: 1 1 0%;
-    flex-direction: row;
-    align-items: flex-start;
-    overflow: hidden;
-    width: 100%;
-    height: 40px;
-    padding: 12px 0px 12px;
-
-    font-size: 14px;
-    letter-spacing: -0.5px;
-  }
-  .css-lytdfk {
-    width: 200px;
-    height: 100%;
-    color: rgb(102, 102, 102);
-    font-weight: 400;
-    line-height: 19px;
-  }
-  .css-1k8t52o {
-    display: flex;
-    flex: 1 1 0%;
-    flex-direction: column;
-  }
-  .css-c02hqi {
-    color: rgb(51, 51, 51);
-    font-weight: 400;
-    line-height: 19px;
-    white-space: pre-line;
-    word-break: break-all;
-    overflow: hidden;
-  }
-  .css-uy94b2 {
-    display: block;
-    font-size: 12px;
-    color: rgb(102, 102, 102);
-    padding-top: 4px;
-    line-height: 16px;
-    white-space: pre-line;
-  }
-
-  /*
-    장바구니부분
-    */
-  .css-1bp09d0 {
-    padding-bottom: 40px;
-  }
-  .css-2lvxh7 {
-    border-bottom: 1px solid rgb(244, 244, 244);
-  }
-  .css-e6zlnr {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: flex-start;
-    -webkit-box-align: flex-start;
-    -ms-flex-align: flex-start;
-    align-items: flex-start;
-    overflow: hidden;
-    width: 100%;
-    padding: 17px 0 18px;
-    border-top: 1px solid #f4f4f4;
-    font-size: 14px;
-    letter-spacing: -0.5px;
-  }
-  .css-lytdfk {
-    width: 200px;
-    height: 100%;
-    color: #666;
-    font-weight: 400;
-    line-height: 19px;
-  }
-  .css-1k8t52o {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-  }
-  .css-1cb5lnc:last-of-type {
-    border-bottom: 1px solid rgb(244, 244, 244);
-  }
-  .css-1cb5lnc {
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    padding: 11px 10px 11px 15px;
-    font-size: 12px;
-    border-left: 1px solid rgb(244, 244, 244);
-    border-top: 1px solid rgb(244, 244, 244);
-    border-right: 1px solid rgb(244, 244, 244);
-  }
-  .css-1qdyvok {
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  *,
-  :after,
-  :before {
-    box-sizing: border-box;
-    margin: 0;
-  }
-  .css-100vshh {
-    line-height: 16px;
-    width: 320px;
-    color: rgb(51, 51, 51);
-    overflow-wrap: break-word;
-  }
-  .css-1fnacti {
-    line-height: 16px;
-    width: 320px;
-    overflow-wrap: break-word;
-    font-size: 12px;
-    color: rgb(102, 102, 102);
-    margin-top: 4px;
-  }
-  .css-1liqj4s {
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    align-items: center;
-    padding-top: 12px;
-  }
-  .css-16dy8wz {
-    display: inline-flex;
-    flex-direction: row;
-    -webkit-box-align: center;
-    align-items: center;
-    border: 1px solid rgb(221, 223, 225);
-    width: 88px;
-    border-radius: 3px;
-  }
-  .css-1e90glc {
-    display: inline-flex;
-    width: 28px;
-    height: 28px;
-    border: none;
-    font-size: 1px;
-    color: transparent;
-    background-size: cover;
-    background-color: transparent;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMCAxNHYySDEwdi0yeiIgZmlsbD0iI0RERCIgZmlsbC1ydWxlPSJub256ZXJvIi8+Cjwvc3ZnPgo=);
-    vertical-align: top;
-  }
-  .css-16dy8wz .count {
-    font-weight: 400;
-  }
-
-  .css-6m57y0 {
-    display: inline-flex;
-    overflow: hidden;
-    white-space: nowrap;
-    -webkit-box-pack: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: rgb(51, 51, 51);
-    text-align: center;
-    width: 31px;
-    height: 28px;
-    line-height: 28px;
-  }
-
-  .css-18y6jr4 {
-    display: inline-flex;
-    width: 28px;
-    height: 28px;
-    border: none;
-    font-size: 1px;
-    color: transparent;
-    background-size: cover;
-    background-color: transparent;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNiAxMHY0aDR2MmgtNHY0aC0ydi00aC00di0yaDR2LTRoMnoiIGZpbGw9IiMzMzMiIGZpbGwtcnVsZT0ibm9uemVybyIvPgo8L3N2Zz4K);
-    vertical-align: top;
-  }
-  .css-1foiu5e {
-    font-weight: bold;
-    font-size: 16px;
-    color: rgb(51, 51, 51);
-    padding-right: 5px;
-    margin: 24px 0 24px 0;
-  }
-  .margin4 {
-    margin: 8px;
-  }
-  .material-symbols-outlined {
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
-  }
-
-  .select {
-    box-sizing: border-box;
-    width: 100px;
-    padding: 4px;
-    font-size: 14px;
-    border-radius: 6px;
-  }
-  .border6 {
-    border-radius: 6px;
-  }
-  .option {
-    padding: 4px;
-    font-size: 14px;
-    color: #fff;
-  }
-  /*장바구니*/
-  .css-lay {
-    display: flex;
-    gap: 8px;
-    margin-top: 20px;
-  }
-  .css-heartbtn {
-    display: block;
-    padding: 0px 10px;
-    text-align: center;
-    overflow: hidden;
-    width: 56px;
-    height: 56px;
-    border-radius: 3px;
-    color: rgb(51, 51, 51);
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(221, 221, 221);
-  }
-  .css-let1 {
-    display: inline-block;
-    font-size: 22px;
-    font-weight: 500;
-  }
-  .css-sthcolor:disabled {
-    border-color: rgb(221, 221, 221);
-    color: rgb(221, 221, 221);
-  }
-  .css-lay2 {
-    -webkit-box-flex: 1;
-    flex-grow: 1;
-  }
-  .css-lay2 .cart-button {
-    font-weight: 500;
-  }
-  .css-cartbtn {
-    display: block;
-    padding: 0px 10px;
-    text-align: center;
-    overflow: hidden;
-    width: 100%;
-    height: 56px;
-    border-radius: 3px;
-    color: rgb(255, 255, 255);
-    background-color: #a3d060;
-    border: 0px none;
-  }
-</style>
-
 <!DOCTYPE html>
 <html lang="zxx">
   <head>
@@ -301,12 +18,24 @@ uri="http://java.sun.com/jsp/jstl/core"%>
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
     <!-- Css Styles -->
 
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link
       rel="stylesheet"
@@ -348,6 +77,283 @@ uri="http://java.sun.com/jsp/jstl/core"%>
       href="${contextPath}/css/style.css"
       type="text/css"
     />
+
+    <style>
+      .css-e6zlnr {
+        display: flex;
+        flex: 1 1 0%;
+        flex-direction: row;
+        align-items: flex-start;
+        /*overflow: hidden;*/
+        width: 100%;
+        height: 40px;
+        padding: 12px 0 12px;
+        font-size: 14px;
+        letter-spacing: -0.5px;
+      }
+      .css-lytdfk {
+        width: 200px;
+        height: 100%;
+        color: #666;
+        font-weight: 400;
+        line-height: 19px;
+      }
+      .css-1k8t52o {
+        display: flex;
+        flex: 1 1 0%;
+        flex-direction: column;
+      }
+      .css-c02hqi {
+        color: #333;
+        font-weight: 400;
+        line-height: 19px;
+        white-space: pre-line;
+        word-break: break-all;
+        /*  overflow: hidden;*/
+      }
+      .css-1bp09d0 {
+        padding-bottom: 40px;
+      }
+      .css-2lvxh7 {
+        border-bottom: 1px solid #f4f4f4;
+      }
+      .css-e6zlnr {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: flex-start;
+        -webkit-box-align: flex-start;
+        -ms-flex-align: flex-start;
+        align-items: flex-start;
+        /*   overflow: hidden;*/
+        width: 100%;
+        padding: 17px 0 18px;
+        border-top: 1px solid #f4f4f4;
+        font-size: 14px;
+        letter-spacing: -0.5px;
+      }
+      .css-lytdfk {
+        width: 200px;
+        height: 100%;
+        color: #666;
+        font-weight: 400;
+        line-height: 19px;
+      }
+      .css-1k8t52o {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+      }
+      .css-1cb5lnc:last-of-type {
+        border-bottom: 1px solid #f4f4f4;
+      }
+      .css-1cb5lnc {
+        display: flex;
+        flex-direction: column;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        padding: 11px 10px 11px 15px;
+        font-size: 12px;
+        border-left: 1px solid #f4f4f4;
+        border-top: 1px solid #f4f4f4;
+        border-right: 1px solid #f4f4f4;
+      }
+      *,
+      :after,
+      :before {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      .css-1foiu5e {
+        font-weight: 700;
+        font-size: 16px;
+        color: #333;
+        padding-right: 5px;
+        margin: 24px 0 24px 0;
+      }
+      .margin4 {
+        margin: 8px;
+      }
+      .select {
+        box-sizing: border-box;
+        width: 100px;
+        padding: 4px;
+        font-size: 14px;
+        border-radius: 6px;
+      }
+      .border6 {
+        border-radius: 6px;
+      }
+      .option {
+        padding: 4px;
+        font-size: 14px;
+        color: #fff;
+      }
+      .css-lay {
+        display: flex;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .css-heartbtn {
+        display: block;
+        padding: 0 10px;
+        text-align: center;
+        overflow: hidden;
+        width: 56px;
+        height: 56px;
+        border-radius: 3px;
+        color: #333;
+        background-color: #fff;
+        border: 1px solid #ddd;
+      }
+      .css-let1 {
+        display: inline-block;
+        font-size: 22px;
+        font-weight: 500;
+      }
+      .css-lay2 {
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+      }
+      .css-lay2 .cart-button {
+        font-weight: 500;
+      }
+      .css-cartbtn {
+        display: block;
+        padding: 0 10px;
+        text-align: center;
+        overflow: hidden;
+        width: 100%;
+        height: 56px;
+        border-radius: 3px;
+        color: #fff;
+        background-color: #a3d060;
+        border: 0 none;
+      }
+      #product > .view > .review > .paging > .num > a.on {
+        color: #fe434c;
+        font-weight: 700;
+      }
+      #product > .view > .review > .paging {
+        width: 100%;
+        padding: 30px 0;
+        text-align: center;
+      }
+      #product > .view > .review > .paging > span > a {
+        color: #777;
+        font-size: 11px;
+        letter-spacing: -1px;
+      }
+      #product > .view > .review > .paging > .num > a {
+        display: inline-block;
+        min-width: 14px;
+        margin: 0 2px;
+        padding: 8px 9px;
+        border: 1px solid #c4c4c4;
+        color: #000;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+      }
+      #product > .view > .review > .paging > .num > a.on {
+        color: #fe434c;
+        font-weight: 700;
+      }
+      .css-169773r {
+        display: flex;
+        padding: 30px 0 19px 20px;
+        border-bottom: 1px solid #f4f4f4;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 19px;
+      }
+      .css-107htc6 {
+        flex: 0 0 225px;
+      }
+      .css-1qo6qeh {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: -1px 0 7px;
+      }
+      .css-f3vz0n {
+        font-weight: 500;
+      }
+      .css-inxa61 {
+        flex: 1 1 0%;
+        overflow: hidden;
+      }
+
+      .css-18pn4xv {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        gap: 5px;
+        height: 19px;
+        padding-right: 20px;
+      }
+      .css-11q4ylb {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 19px;
+        color: #999;
+        display: -webkit-box;
+        overflow: hidden;
+        word-break: break-all;
+        white-space: normal;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+      .css-1fkegtf {
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+        width: 100%;
+        padding-top: 19px;
+        padding-right: 20px;
+      }
+      .css-14kcwq8 {
+        color: #999;
+      }
+      .css-g3a39p {
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        align-items: center;
+        min-width: 88px;
+        height: 32px;
+        padding: 0 13px 0 11px;
+        border: 1px solid #e2e2e2;
+        border-radius: 20px;
+        font-size: 12px;
+        line-height: 20px;
+        color: #999;
+      }
+      .css-xdee1z {
+        width: 15px;
+        height: 15px;
+        margin-right: 4px;
+        background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIKICAgICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwYXRoCiAgICBkPSJNNC4wNDgzNyAxMi45OTk4SDIuMjE5MzVDMS41NDU5MiAxMi45OTk4IDEgMTIuNDYyNiAxIDExLjc5OTlWNy41OTk5MkMxIDYuOTM3MTggMS41NDU5MiA2LjM5OTkzIDIuMjE5MzUgNi4zOTk5M0g0LjA0ODM3TTguMzE2MDggNS4xOTk5NVYyLjc5OTk4QzguMzE2MDggMS44MDU4OCA3LjQ5NzIgMSA2LjQ4NzA2IDFMNC4wNDgzNyA2LjM5OTkzVjEyLjk5OTlIMTAuOTI1NUMxMS41MzM1IDEzLjAwNjYgMTIuMDUzNyAxMi41NzE1IDEyLjE0NDggMTEuOTc5OUwxMi45ODYyIDYuNTc5OTNDMTMuMDM5OSA2LjIzMTg1IDEyLjkzNTUgNS44NzgxMiAxMi43MDA4IDUuNjEyNDVDMTIuNDY2IDUuMzQ2NzggMTIuMTI0NiA1LjE5NTk2IDExLjc2NjggNS4xOTk5NUg4LjMxNjA4WiIKICAgIHN0cm9rZT0iIzk5OTk5OSIgc3Ryb2tlLXdpZHRoPSIxLjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIKICAgIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==)
+          center center no-repeat;
+      }
+    </style>
   </head>
 
   <body>
@@ -415,87 +421,73 @@ uri="http://java.sun.com/jsp/jstl/core"%>
               <h3>못난이 당근</h3>
               <div class="product__details__rating">
                 <img
-                  src="${contextPath}/img/product/review/star.png"
-                  alt="리뷰 별"
-                />
-                <img
-                  src="${contextPath}/img/product/review/star.png"
-                  alt="리뷰 별"
-                />
-                <img
-                  src="${contextPath}/img/product/review/star.png"
-                  alt="리뷰 별"
-                />
-                <img
-                  src="${contextPath}/img/product/review/star.png"
-                  alt="리뷰 별"
-                />
-                <img
-                  src="${contextPath}/img/product/review/half-star.png"
+                  src="${contextPath}/img/product/review/star.jpg"
                   alt="리뷰 별"
                 />
 
-                <span>(3 reviews)</span>
-                <div class="product__details__price">￦900</div>
-                <section class="css-1ua1wyk e17iylht2">
-                  <div class="css-iqoq9n e6qx2kx2">
-                    <dl class="css-e6zlnr epzddad2">
-                      <dt class="css-lytdfk epzddad1 textbold">배송</dt>
-                      <dd class="css-1k8t52o epzddad0">
-                        <p class="css-c02hqi e6qx2kx1">택배 배송(기본 3일)</p>
+                <span style="color: #dd2222">(3 reviews)</span>
+                <div class="product__details__price" style="color: #dd2222">
+                  ￦900
+                </div>
+                <section>
+                  <div>
+                    <dl class="css-e6zlnr">
+                      <dt class="css-lytdfk textbold">배송</dt>
+                      <dd class="css-1k8t52o">
+                        <p class="css-c02hqi">택배 배송(기본 3일)</p>
                       </dd>
                     </dl>
-                    <dl class="css-e6zlnr epzddad2">
-                      <dt class="css-lytdfk epzddad1 textbold">판매자</dt>
-                      <dd class="css-1k8t52o epzddad0">
-                        <p class="css-c02hqi e6qx2kx1">김씨</p>
+                    <dl class="css-e6zlnr">
+                      <dt class="css-lytdfk textbold">판매자</dt>
+                      <dd class="css-1k8t52o">
+                        <p class="css-c02hqi">김씨</p>
                       </dd>
                     </dl>
-                    <dl class="css-e6zlnr epzddad2">
-                      <dt class="css-lytdfk epzddad1 textbold">포장타입</dt>
-                      <dd class="css-1k8t52o epzddad0">
-                        <p class="css-c02hqi e6qx2kx1">상온(종이 포장)</p>
+                    <dl class="css-e6zlnr">
+                      <dt class="css-lytdfk textbold">포장타입</dt>
+                      <dd class="css-1k8t52o">
+                        <p class="css-c02hqi">상온(종이 포장)</p>
                       </dd>
                     </dl>
-                    <dl class="css-e6zlnr epzddad2">
-                      <dt class="css-lytdfk epzddad1 textbold">원산지</dt>
-                      <dd class="css-1k8t52o epzddad0">
-                        <p class="css-c02hqi e6qx2kx1">논산</p>
+                    <dl class="css-e6zlnr">
+                      <dt class="css-lytdfk textbold">원산지</dt>
+                      <dd class="css-1k8t52o">
+                        <p class="css-c02hqi">논산</p>
                       </dd>
                     </dl>
-                    <dl class="css-e6zlnr epzddad2">
-                      <dt class="css-lytdfk epzddad1 textbold">무게 / 용량</dt>
-                      <dd class="css-1k8t52o epzddad0">
-                        <p class="css-c02hqi e6qx2kx1">300g</p>
+                    <dl class="css-e6zlnr">
+                      <dt class="css-lytdfk textbold">무게 / 용량</dt>
+                      <dd class="css-1k8t52o">
+                        <p class="css-c02hqi">300g</p>
                       </dd>
                     </dl>
-                    <dl class="css-e6zlnr epzddad2">
-                      <dt class="css-lytdfk epzddad1 textbold">수확시기</dt>
-                      <dd class="css-1k8t52o epzddad0">
-                        <p class="css-c02hqi e6qx2kx1">8월</p>
+                    <dl class="css-e6zlnr">
+                      <dt class="css-lytdfk textbold">수확시기</dt>
+                      <dd class="css-1k8t52o">
+                        <p class="css-c02hqi">8월</p>
                       </dd>
                     </dl>
-                    <dl class="css-e6zlnr epzddad2">
-                      <dt class="css-lytdfk epzddad1 textbold">배송</dt>
-                      <dd class="css-1k8t52o epzddad0">
-                        <p class="css-c02hqi e6qx2kx1">택배 배송(기본 3일)</p>
+                    <dl class="css-e6zlnr">
+                      <dt class="css-lytdfk textbold">배송</dt>
+                      <dd class="css-1k8t52o">
+                        <p class="css-c02hqi">택배 배송(기본 3일)</p>
                       </dd>
                     </dl>
 
                     <!--수정-->
-                    <div
-                      class="css-1bp09d0 e17iylht1"
-                      style="margin-bottom: -40px"
-                    >
-                      <div class="css-2lvxh7 e1qy0s5w0">
-                        <dl class="css-e6zlnr epzddad2" style="height: 170px">
+                    <div class="css-1bp09d0">
+                      <div class="css-2lvxh7">
+                        <dl
+                          class="css-e6zlnr"
+                          style="height: 50px; margin-bottom: 50px"
+                        >
                           <dt
-                            class="css-lytdfk epzddad1 textbold"
+                            class="css-lytdfk textbold"
                             style="margin-top: 16px"
                           >
                             상품선택
                           </dt>
-                          <dd class="css-1k8t52o epzddad0">
+                          <dd class="css-1k8t52o">
                             <div
                               style="align-content: center"
                               style="overflow-y: scrol"
@@ -518,16 +510,16 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                           </dd>
                         </dl>
                         <div
-                          class="cart-option-item css-1cb5lnc e1bjklo17"
+                          class="cart-option-item css-1cb5lnc"
                           style="width: 525px"
                         >
                           <dl
-                            class="css-e6zlnr epzddad2"
+                            class="css-e6zlnr"
                             style="height: 150px; border-top: none; margin: 0"
                           >
-                            <dt class="css-lytdfk epzddad1">
+                            <dt class="css-lytdfk">
                               <div
-                                class="css-1foiu5e e1bjklo10 font-bold"
+                                class="css-1foiu5e font-bold"
                                 style="margin-bottom: 24px; font-size: 22px"
                               >
                                 못난이 당근 단품
@@ -542,7 +534,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                             </dt>
                           </dl>
                           <span
-                            class="css-1foiu5e e1bjklo10 text-right"
+                            class="css-1foiu5e text-right"
                             style="
                               font-size: 16px;
                               border-top: 1px solid rgb(244, 244, 244);
@@ -553,61 +545,53 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                             총 상품금액
                           </span>
                           <span
-                            class="css-1foiu5e e1bjklo10 text-right"
+                            class="css-1foiu5e text-right"
                             style="font-size: 22px; margin-bottom: -10px"
                             >900원</span
                           >
                         </div>
                       </div>
-                      <div class="css-9y0nwt e17iylht0">
-                        <div class="css-ixlb9s eebc7rx8">
-                          <div class="css-yhijln eebc7rx7">
-                            <span
-                              class="css-x4cdgl eebc7rx5"
-                              id="sum"
-                              value="0"
-                            ></span>
+                      <div class="css-9y0nwt">
+                        <div class="css-ixlb9s">
+                          <div class="css-yhijln">
+                            <span class="css-x4cdgl" id="sum" value="0"></span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="css-lay e10vtr1i2">
+                    <div class="css-lay">
                       <button
-                        class="css-heartbtn e4nu7ef3 btn-regular"
+                        class="css-heartbtn btn-regular"
                         type="button"
                         width="56"
                         height="56"
                         radius="3"
                       >
-                        <span class="css-let1 e4nu7ef1"
+                        <span class="css-let1"
                           ><img
                             src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yNS44MDcgNy44NjNhNS43NzcgNS43NzcgMCAwIDAtOC4xNzIgMEwxNiA5LjQ5N2wtMS42MzUtMS42MzRhNS43NzkgNS43NzkgMCAxIDAtOC4xNzMgOC4xNzJsMS42MzQgMS42MzQgNy40NjYgNy40NjdhMSAxIDAgMCAwIDEuNDE1IDBzMCAwIDAgMGw3LjQ2Ni03LjQ2N2gwbDEuNjM0LTEuNjM0YTUuNzc3IDUuNzc3IDAgMCAwIDAtOC4xNzJ6IiBzdHJva2U9IiM1RjAwODAiIHN0cm9rZS13aWR0aD0iMS42IiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K"
                             alt=""
                             class="css-0"
                         /></span>
                       </button>
-                      <div class="css-lay2 e10vtr1i0">
+                      <div class="css-lay2">
                         <button
                           class="cart-button css-cartbtn e4nu7ef3"
-                          type="button"
+                          type="submit"
                           radius="3"
                         >
-                          <span class="css-nytqmg e4nu7ef1 textbold"
-                            >바로 구매</span
-                          >
+                          <span class="css-nytqmg textbold">바로 구매</span>
                         </button>
                       </div>
 
                       <!--중간부분-->
-                      <div class="css-lay2 e10vtr1i0">
+                      <div class="css-lay2">
                         <button
-                          class="cart-button css-cartbtn e4nu7ef3"
+                          class="cart-button css-cartbtn"
                           type="button"
                           radius="3"
                         >
-                          <span class="css-nytqmg e4nu7ef1 textbold"
-                            >장바구니 담기</span
-                          >
+                          <span class="css-nytqmg textbold">장바구니 담기</span>
                         </button>
                       </div>
                     </div>
@@ -673,8 +657,125 @@ uri="http://java.sun.com/jsp/jstl/core"%>
               </div>
               <div class="tab-pane" id="tabs-3" role="tabpanel">
                 <div class="product__details__tab__desc">
-                  <h6>상품 후기</h6>
-                  <p></p>
+                  <h6
+                    class="text-left textbold"
+                    style="padding-left: 20px; font-size: 24px"
+                  >
+                    상품 후기
+                  </h6>
+                  <div class="text-left" style="margin-bottom: 30px">
+                    <img
+                      style="padding-top: 8px"
+                      src="${contextPath}/img/product/review/carrot.jpg"
+                      alt="리뷰 별"
+                    />
+                  </div>
+                  <h6 class="text-left" style="padding-left: 20px">총 2개</h6>
+
+                  <!--상품 후기-->
+                  <div
+                    class="css-169773r"
+                    style="border-top: 1px solid rgb(244, 244, 244)"
+                  >
+                    <div class="css-107htc6">
+                      <div class="css-1qo6qeh">
+                        <span class="css-f3vz0n">강**</span>
+                      </div>
+                      <div class="css-1qo6qeh">
+                        <span class="css-f3vz0n" style="padding-top: 11px"
+                          ><img
+                            src="${contextPath}/img/product/review/star.jpg"
+                            alt="리뷰 별"
+                        /></span>
+                      </div>
+                    </div>
+                    <article class="css-inxa61">
+                      <div>
+                        <div class="css-18pn4xv">
+                          <h3 class="css-11q4ylb">[못난이 당근]</h3>
+                        </div>
+                        <p class="text-left" style="padding: 15px 0 0 0">
+                          생긴것과 다르게 맛있어요!!
+                        </p>
+                        <footer class="css-1fkegtf">
+                          <div>
+                            <span class="css-14kcwq8">2023.08.12</span>
+                          </div>
+                          <button class="css-g3a39p">
+                            <span class="ico css-xdee1z"></span
+                            ><span>도움돼요</span>
+                          </button>
+                        </footer>
+                      </div>
+                    </article>
+                  </div>
+                  <div class="css-169773r">
+                    <div class="css-107htc6">
+                      <div class="css-1qo6qeh">
+                        <span class="css-f3vz0n">최**</span>
+                      </div>
+                      <div class="css-1qo6qeh">
+                        <span class="css-f3vz0n" style="padding-top: 11px"
+                          ><img
+                            src="${contextPath}/img/product/review/star.jpg"
+                            alt="리뷰 별"
+                        /></span>
+                      </div>
+                    </div>
+                    <article class="css-inxa61">
+                      <div>
+                        <div class="css-18pn4xv">
+                          <h3 class="css-11q4ylb">[못난이 당근]</h3>
+                        </div>
+                        <p class="text-left" style="padding: 15px 0 0 0">
+                          아주 맛있어요 믿고 사요!!
+                          <br />
+                          <img
+                            style="padding-top: 8px; width: 60px; height: 60px"
+                            src="${contextPath}/img/product/review/carrot.jpg"
+                            alt="리뷰 별"
+                          />
+                        </p>
+                        <footer class="css-1fkegtf">
+                          <div>
+                            <span class="css-14kcwq8">2023.08.12</span>
+                          </div>
+                          <button class="css-g3a39p">
+                            <span class="ico css-xdee1z"></span
+                            ><span>도움돼요</span>
+                          </button>
+                        </footer>
+                      </div>
+                    </article>
+                  </div>
+
+                  <!--페이징-->
+                  <div id="wrapper">
+                    <main id="product">
+                      <section class="view">
+                        <article class="review">
+                          <div class="paging">
+                            <span class="prev">
+                              <a href="#">< 이전</a>
+                            </span>
+                            <span class="num">
+                              <a href="#" class="on">1</a>
+                              <a href="#">2</a>
+                              <a href="#">3</a>
+                              <a href="#">4</a>
+                              <a href="#">5</a>
+                              <a href="#">6</a>
+                              <a href="#">7</a>
+                            </span>
+                            <span class="next">
+                              <a href="#">다음 ></a>
+                            </span>
+                          </div>
+                        </article>
+                      </section>
+                    </main>
+                  </div>
+                  <!--여기까지 상품후기-->
                 </div>
               </div>
             </div>
@@ -690,7 +791,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
         <div class="row">
           <div class="col-lg-12">
             <div class="section-title related__product__title">
-              <h2>Related Product</h2>
+              <h2>관련 상품</h2>
             </div>
           </div>
         </div>
@@ -705,17 +806,15 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                   <li>
                     <a href="#"><i class="fa fa-heart"></i></a>
                   </li>
-                  <li>
-                    <a href="#"><i class="fa fa-retweet"></i></a>
-                  </li>
+
                   <li>
                     <a href="#"><i class="fa fa-shopping-cart"></i></a>
                   </li>
                 </ul>
               </div>
               <div class="product__item__text">
-                <h6><a href="#">Crab Pool Security</a></h6>
-                <h5>$30.00</h5>
+                <h6><a href="#">못난이 복숭아</a></h6>
+                <h5>￦3200</h5>
               </div>
             </div>
           </div>
@@ -729,17 +828,15 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                   <li>
                     <a href="#"><i class="fa fa-heart"></i></a>
                   </li>
-                  <li>
-                    <a href="#"><i class="fa fa-retweet"></i></a>
-                  </li>
+
                   <li>
                     <a href="#"><i class="fa fa-shopping-cart"></i></a>
                   </li>
                 </ul>
               </div>
               <div class="product__item__text">
-                <h6><a href="#">Crab Pool Security</a></h6>
-                <h5>$30.00</h5>
+                <h6><a href="#">못난이 감자</a></h6>
+                <h5>￦1300</h5>
               </div>
             </div>
           </div>
@@ -753,17 +850,15 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                   <li>
                     <a href="#"><i class="fa fa-heart"></i></a>
                   </li>
-                  <li>
-                    <a href="#"><i class="fa fa-retweet"></i></a>
-                  </li>
+
                   <li>
                     <a href="#"><i class="fa fa-shopping-cart"></i></a>
                   </li>
                 </ul>
               </div>
               <div class="product__item__text">
-                <h6><a href="#">Crab Pool Security</a></h6>
-                <h5>$30.00</h5>
+                <h6><a href="#">못난이 수박</a></h6>
+                <h5>￦5400</h5>
               </div>
             </div>
           </div>
@@ -777,17 +872,15 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                   <li>
                     <a href="#"><i class="fa fa-heart"></i></a>
                   </li>
-                  <li>
-                    <a href="#"><i class="fa fa-retweet"></i></a>
-                  </li>
+
                   <li>
                     <a href="#"><i class="fa fa-shopping-cart"></i></a>
                   </li>
                 </ul>
               </div>
               <div class="product__item__text">
-                <h6><a href="#">Crab Pool Security</a></h6>
-                <h5>$30.00</h5>
+                <h6><a href="#">못난이 가지</a></h6>
+                <h5>￦1200</h5>
               </div>
             </div>
           </div>
