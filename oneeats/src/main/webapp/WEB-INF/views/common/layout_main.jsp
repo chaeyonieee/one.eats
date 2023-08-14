@@ -14,7 +14,6 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
 
     <!-- Css Styles -->
     <link
@@ -58,11 +57,16 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
       type="text/css"
     />
 
-    <!--추가한 css js-->
+    <!--추가한 css-->
     <link rel="stylesheet" href="${contextPath}/css/common.css" />
-    <script src="${contextPath}/js/common.js"></script>
     <link rel="stylesheet" href="${contextPath}/css/font.css" />
+    <link rel="stylesheet" href="${contetPath}/css/notice-window.css" />
 
+    <!-- Js Plugins -->
+    <script src="${contextPath}/js/jquery-3.3.1.min.js"></script>
+
+    <!--추가한 js-->
+    <script src="${contextPath}/js/common.js"></script>
     <title><tiles:insertAttribute name="title"/></title>
   </head>
   <body>
@@ -87,15 +91,38 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
       </div>
     </div>
 
-    <!-- Js Plugins -->
-    <script src="${contextPath}/js/jquery-3.3.1.min.js"></script>
-    <script src="${contextPath}/js/bootstrap.min.js"></script>
-    <script src="${contextPath}/js/jquery.nice-select.min.js"></script>
-    <script src="${contextPath}/js/jquery-ui.min.js"></script>
-    <script src="${contextPath}/js/jquery.slicknav.js"></script>
-    <script src="${contextPath}/js/mixitup.min.js"></script>
-    <script src="${contextPath}/js/owl.carousel.min.js"></script>
-    <script src="${contextPath}/js/main.js"></script>
-    <script src="${contextPath}/js/jQueryRotate.js"></script>
+    <div class="modal-overlay">
+      <div
+        id="alert_window"
+        class="btn-round border-dark bg-white text-center modal-content m-0"
+      >
+        <div class="modal-body">
+          <span id="alert_message"
+            >알림메시지 <br />
+            입니다.</span
+          >
+        </div>
+        <div class="btn-group modal-footer p-0 m-0">
+          <button
+            id="cancel-button"
+            class="btn textcolor-lightgray border-0 m-0"
+            onclick="closeModal();"
+          >
+            취소
+          </button>
+          <button id="confirm-button" class="btn textcolor-green border-0 m-0">
+            확인
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
+  <script src="${contextPath}/js/bootstrap.min.js"></script>
+  <script src="${contextPath}/js/jquery.nice-select.min.js"></script>
+  <script src="${contextPath}/js/jquery-ui.min.js"></script>
+  <script src="${contextPath}/js/jquery.slicknav.js"></script>
+  <script src="${contextPath}/js/mixitup.min.js"></script>
+  <script src="${contextPath}/js/owl.carousel.min.js"></script>
+  <script src="${contextPath}/js/main.js"></script>
+  <script src="${contextPath}/js/jQueryRotate.js"></script>
 </html>
