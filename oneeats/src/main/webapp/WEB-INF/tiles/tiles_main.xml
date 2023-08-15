@@ -11,8 +11,8 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
-	
-	
+
+
 	<definition name="longimageLayout"
       template="/WEB-INF/views/common/layout_longimage.jsp">
       <put-attribute name="title" value="긴 레이아웃 페이지" />
@@ -21,18 +21,41 @@
       <put-attribute name="body" value="" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 </definition>
-	
-	
 
-		<definition name="mainLayoutformainPage"
+
+
+<definition name="mainLayoutformainPage"
 		template="/WEB-INF/views/common/layout_main.jsp">
 		<put-attribute name="title" value="레이아웃 페이지" />
 		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
 		<put-attribute name="side" value="/WEB-INF/views/common/layout_undersidebar.jsp" />
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
-	</definition>
-	
+</definition>
+
+
+	<definition name="longimageLayout"
+		template="/WEB-INF/views/common/layout_longimage.jsp">
+		<put-attribute name="title" value="긴 레이아웃 페이지" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="side" value="/WEB-INF/views/common/side.jsp" />
+		<put-attribute name="long_image" value="" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+
+
+</definition>
+
+	<definition name="undersidebarLayout"
+		template="/WEB-INF/views/common/layout_undersidebar.jsp">
+		<put-attribute name="title" value="긴 레이아웃 페이지" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="side" value="/WEB-INF/views/common/side.jsp" />
+		<put-attribute name="body1" value="" />
+		<put-attribute name="body2" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+		</definition>
+
 
 	<definition name="nosidebarLayout"
 	template="/WEB-INF/views/common/layout_nosidebar.jsp">
@@ -42,7 +65,7 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
 
-	<definition name="/home" extends="mainLayoutformainPage">
+	<definition name="/home" extends="mainLayout">
 		<put-attribute name="title" value="쇼핑몰 메인페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
@@ -51,26 +74,43 @@
 		<put-attribute name="title" value="쇼핑몰 메인페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/main/mainPage.jsp" />
 	</definition>
-	
+
 
 	<definition name="/loginForm" extends="nosidebarLayout">
 		<put-attribute name="title" value="쇼핑몰 로그인페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
 	</definition>
-	
+
 	<definition name="/registerTypeSelect" extends="nosidebarLayout">
 		<put-attribute name="title" value="쇼핑몰 회원가입선택페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/member/registerTypeSelect.jsp" />
 	</definition>
-	
+
 	<definition name="/registerForm" extends="nosidebarLayout">
 		<put-attribute name="title" value="쇼핑몰 회원가입" />
 		<put-attribute name="body" value="/WEB-INF/views/member/registerForm.jsp" />
 	</definition>
-	
+	<definition name="/idSearchForm" extends="nosidebarLayout">
+		<put-attribute name="title" value="쇼핑몰 아이디 찾기" />
+		<put-attribute name="body" value="/WEB-INF/views/member/idSearchForm.jsp" />
+	</definition>
+	<definition name="/idForm" extends="nosidebarLayout">
+		<put-attribute name="title" value="쇼핑몰 아이디 찾기" />
+		<put-attribute name="body" value="/WEB-INF/views/member/idForm.jsp" />
+	</definition>
+	<definition name="/pwSearchForm" extends="nosidebarLayout">
+		<put-attribute name="title" value="쇼핑몰 비밀번호 찾기" />
+		<put-attribute name="body" value="/WEB-INF/views/member/pwSearchForm.jsp" />
+	</definition>
+	<definition name="/newPwSearchForm" extends="nosidebarLayout">
+		<put-attribute name="title" value="쇼핑몰 비밀번호 찾기" />
+		<put-attribute name="body" value="/WEB-INF/views/member/newPwSearchForm.jsp" />
+	</definition>
 
-	
+		<definition name="/cart" extends="nosidebarLayout">
+		<put-attribute name="title" value="" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/main/cart.jsp" />
+	</definition>
 
 </tiles-definitions>
-
-

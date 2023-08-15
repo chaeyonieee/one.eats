@@ -430,64 +430,59 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                   alt="리뷰 별"
                 />
 
-                <span style="color: #dd2222">(3 reviews)</span>
-                <div class="product__details__price" style="color: #dd2222">
-                  ￦900
-                </div>
-                <section>
-                  <div>
+                <span>(3 reviews)</span>
+                <div class="product__details__price">￦900</div>
+                <section class="css-1ua1wyk">
+                  <div class="css-iqoq9n">
                     <dl class="css-e6zlnr">
-                      <dt class="css-lytdfk textbold">배송</dt>
+                      <dt style="width: 200px; color: #333333">배송</dt>
                       <dd class="css-1k8t52o">
                         <p class="css-c02hqi">택배 배송(기본 3일)</p>
                       </dd>
                     </dl>
                     <dl class="css-e6zlnr">
-                      <dt class="css-lytdfk textbold">판매자</dt>
+                      <dt style="width: 200px; color: #333333">판매자</dt>
                       <dd class="css-1k8t52o">
                         <p class="css-c02hqi">김씨</p>
                       </dd>
                     </dl>
                     <dl class="css-e6zlnr">
-                      <dt class="css-lytdfk textbold">포장타입</dt>
+                      <dt style="width: 200px; color: #333333">포장타입</dt>
                       <dd class="css-1k8t52o">
                         <p class="css-c02hqi">상온(종이 포장)</p>
                       </dd>
                     </dl>
                     <dl class="css-e6zlnr">
-                      <dt class="css-lytdfk textbold">원산지</dt>
+                      <dt style="width: 200px; color: #333333">원산지</dt>
                       <dd class="css-1k8t52o">
                         <p class="css-c02hqi">논산</p>
                       </dd>
                     </dl>
                     <dl class="css-e6zlnr">
-                      <dt class="css-lytdfk textbold">무게 / 용량</dt>
+                      <dt style="width: 200px; color: #333333">무게 / 용량</dt>
                       <dd class="css-1k8t52o">
                         <p class="css-c02hqi">300g</p>
                       </dd>
                     </dl>
                     <dl class="css-e6zlnr">
-                      <dt class="css-lytdfk textbold">수확시기</dt>
+                      <dt style="width: 200px; color: #333333">수확시기</dt>
                       <dd class="css-1k8t52o">
                         <p class="css-c02hqi">8월</p>
                       </dd>
                     </dl>
                     <dl class="css-e6zlnr">
-                      <dt class="css-lytdfk textbold">배송</dt>
+                      <dt style="width: 200px; color: #333333">배송</dt>
                       <dd class="css-1k8t52o">
                         <p class="css-c02hqi">택배 배송(기본 3일)</p>
                       </dd>
                     </dl>
 
                     <!--수정-->
-                    <div class="css-1bp09d0">
+                    <div class="css-1bp09d0" style="margin-bottom: -40px">
                       <div class="css-2lvxh7">
-                        <dl
-                          class="css-e6zlnr"
-                          style="height: 50px; margin-bottom: 50px"
-                        >
+                        <dl class="css-e6zlnr" style="height: 170px">
                           <dt
-                            class="css-lytdfk textbold"
+                            style="width: 200px; color: #333333"
                             style="margin-top: 16px"
                           >
                             상품선택
@@ -522,7 +517,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                             class="css-e6zlnr"
                             style="height: 150px; border-top: none; margin: 0"
                           >
-                            <dt class="css-lytdfk">
+                            <dt class="css-lytdfk epzddad1">
                               <div
                                 class="css-1foiu5e font-bold"
                                 style="margin-bottom: 24px; font-size: 22px"
@@ -581,8 +576,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       </button>
                       <div class="css-lay2">
                         <button
-                          class="cart-button css-cartbtn e4nu7ef3"
-                          type="submit"
+                          class="cart-button css-cartbtn"
+                          type="button"
                           radius="3"
                         >
                           <span class="css-nytqmg textbold">바로 구매</span>
@@ -629,7 +624,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                   href="#tabs-3"
                   role="tab"
                   aria-selected="false"
-                  >Reviews <span>(3)</span></a
+                  >Reviews <span>(2)</span></a
                 >
               </li>
             </ul>
@@ -797,8 +792,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <div class="section-title related__product__title">
-              <h2>관련 상품</h2>
+            <div class="section-title product__discount__title">
+              <h2 style="text-align: center">관련 상품</h2>
             </div>
           </div>
         </div>
@@ -807,7 +802,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             <div class="product__item">
               <div
                 class="product__item__pic set-bg"
-                data-setbg="${contextPath}/img/product/product-1.jpg"
+                data-setbg="${contextPath}/img/product/main/peach.jpg"
               >
                 <ul class="product__item__pic__hover">
                   <li>
@@ -820,8 +815,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                 </ul>
               </div>
               <div class="product__item__text">
-                <h6><a href="#">못난이 복숭아</a></h6>
-                <h5>￦3200</h5>
+                <h6><a href="#">못난이 복숭아 1개입</a></h6>
+                <h5>￦2000</h5>
               </div>
             </div>
           </div>
@@ -829,7 +824,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             <div class="product__item">
               <div
                 class="product__item__pic set-bg"
-                data-setbg="${contextPath}/img/product/product-2.jpg"
+                data-setbg="${contextPath}/img/product/main/watermelon.jpg"
               >
                 <ul class="product__item__pic__hover">
                   <li>
@@ -842,16 +837,39 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                 </ul>
               </div>
               <div class="product__item__text">
-                <h6><a href="#">못난이 감자</a></h6>
+                <h6><a href="#">못난이 수박 1kg</a></h6>
+                <h5>￦27900</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="product__item">
+              <div
+                class="product__item__pic set-bg"
+                data-setbg="${contextPath}/img/product/main/potato.jpg"
+              >
+                <ul class="product__item__pic__hover">
+                  <li>
+                    <a href="#"><i class="fa fa-heart"></i></a>
+                  </li>
+
+                  <li>
+                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                  </li>
+                </ul>
+              </div>
+              <div class="product__item__text">
+                <h6><a href="#">못난이 감자 1개입</a></h6>
                 <h5>￦1300</h5>
               </div>
             </div>
           </div>
+
           <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="product__item">
               <div
                 class="product__item__pic set-bg"
-                data-setbg="${contextPath}/img/product/product-3.jpg"
+                data-setbg="${contextPath}/img/product/main/nyoki.jpg"
               >
                 <ul class="product__item__pic__hover">
                   <li>
@@ -864,30 +882,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                 </ul>
               </div>
               <div class="product__item__text">
-                <h6><a href="#">못난이 수박</a></h6>
-                <h5>￦5400</h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="product__item">
-              <div
-                class="product__item__pic set-bg"
-                data-setbg="${contextPath}/img/product/product-7.jpg"
-              >
-                <ul class="product__item__pic__hover">
-                  <li>
-                    <a href="#"><i class="fa fa-heart"></i></a>
-                  </li>
-
-                  <li>
-                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
-                  </li>
-                </ul>
-              </div>
-              <div class="product__item__text">
-                <h6><a href="#">못난이 가지</a></h6>
-                <h5>￦1200</h5>
+                <h6><a href="#">포르치니버섯 크림 뇨끼</a></h6>
+                <h5>￦8800</h5>
               </div>
             </div>
           </div>
