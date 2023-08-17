@@ -24,7 +24,6 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
             <select name="filter_type">
               <option value="goodsName">상품명</option>
               <option value="goodsNo">상품번호</option>
-              <option value="sellerId">사업자아이디</option>
               <option value="memberId">작성자아이디</option>
               <option value="content">내용</option>
             </select>
@@ -52,8 +51,7 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
         <div class="row header-row textbold">
           <div class="col-md-1">번호</div>
           <div class="col-md-2">상품번호</div>
-          <div class="col-md-4">상품명</div>
-          <div class="col-md-2">사업자아이디</div>
+          <div class="col-md-6">상품명</div>
           <div class="col-md-2">작성자아이디</div>
           <div class="col-md-1">삭제</div>
         </div>
@@ -66,8 +64,7 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
             onClick="location.href='${contextPath}/goods/goodsDetail.do?goodsNo=48'"
           >
             <div class="row">
-              <div class="col-md-6 text-left">못난이 복숭아</div>
-              <div class="col-md-3">uglyfarm</div>
+              <div class="col-md-9 text-left">못난이 복숭아</div>
               <div class="col-md-3">hanyeji</div>
             </div>
             <div class="row">
@@ -79,7 +76,7 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
           </div>
           <div class="col-md-1">
             <a
-              onClick="fn_openalert('삭제하시겠습니까?','${contextPath}/admin/communtiy/review/deleteReview.do?reviewNo=121');"
+              onClick="fn_openalert('삭제하시겠습니까?','${contextPath}/seller/communtiy/review/deleteReview.do?reviewNo=121');"
               >삭제</a
             >
           </div>
@@ -87,39 +84,14 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
         <hr class="line-gray" />
 
         <div class="row reviewList-title">
-          <div class="col-md-1">121</div>
-          <div class="col-md-2">48</div>
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-6 text-left">못난이 복숭아</div>
-              <div class="col-md-3">uglyfarm</div>
-              <div class="col-md-3">hanyeji</div>
-            </div>
-            <div class="row">
-              <div class="col text-left">
-                ★★★★☆ <br />
-                생긴 것과 다르게 아주 맛있습니다.
-              </div>
-            </div>
-          </div>
-          <div class="col-md-1">
-            <a
-              onClick="fn_openalert('삭제하시겠습니까?','${contextPath}/admin/communtiy/review/deleteReview.do?reviewNo=121');"
-              >삭제</a
-            >
-          </div>
-        </div>
-        <hr class="line-gray" />
-        <div class="row reviewList-title">
-          <div class="col-md-1">121</div>
+          <div class="col-md-1">122</div>
           <div class="col-md-2">48</div>
           <div
             class="col-md-8"
             onClick="location.href='${contextPath}/goods/goodsDetail.do?goodsNo=48'"
           >
             <div class="row">
-              <div class="col-md-6 text-left">못난이 복숭아</div>
-              <div class="col-md-3">uglyfarm</div>
+              <div class="col-md-9 text-left">못난이 복숭아</div>
               <div class="col-md-3">hanyeji</div>
             </div>
             <div class="row">
@@ -131,7 +103,7 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
           </div>
           <div class="col-md-1">
             <a
-              onClick="fn_openalert('삭제하시겠습니까?','${contextPath}/admin/communtiy/review/deleteReview.do?reviewNo=121');"
+              onClick="fn_openalert('삭제하시겠습니까?','${contextPath}/seller/communtiy/review/deleteReview.do?reviewNo=121');"
               >삭제</a
             >
           </div>
@@ -150,8 +122,7 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
                   onClick="location.href='${contextPath}/goods/goodsDetail.do?goodsNo=${review.goodsNo}'"
                 >
                   <div class="row" style="border-bottom: gray">
-                    <div class="col-md-6 text-left">${review.goodsName}</div>
-                    <div class="col-md-3">${review.sellerId}</div>
+                    <div class="col-md-9 text-left">${review.goodsName}</div>
                     <div class="col-md-3">${review.memberId}</div>
                   </div>
                   <div class="row">
@@ -163,7 +134,7 @@ uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %> <%@ taglib prefix
                 </div>
                 <div class="col-md-1">
                   <a
-                    onClick="fn_openalert('삭제하시겠습니까?','${contextPath}/admin/communtiy/review/deleteReview.do?reviewNo=${review.reviewNo}');"
+                    onClick="fn_openalert('삭제하시겠습니까?','${contextPath}/seller/communtiy/review/deleteReview.do?reviewNo=${review.reviewNo}');"
                     >삭제</a
                   >
                 </div>
