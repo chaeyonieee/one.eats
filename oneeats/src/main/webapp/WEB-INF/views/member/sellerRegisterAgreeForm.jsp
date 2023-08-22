@@ -14,7 +14,11 @@
 <meta charset="UTF-8">
 <title>회원가입 선택 창</title>
 <style>
-
+.box{
+    width: 100px; 
+    height: 24px;
+    display: inline-block;
+}
 </style>
 <c:choose>
 	<c:when test = "${result=='loginFailed' }">
@@ -27,7 +31,7 @@
 	</c:choose>
 </head>
 <body>
-<form method = "post" action = "${contextPath}/seller/member/sellerRegisterInfoForm.do">
+<form method = "post" action = "${contextPath}/member/sellerRegister_two.do">
 <br>
 <br>
 <br>
@@ -37,10 +41,11 @@
             <div class ="mainline"></div>
             <br>
             <br>
-            <div class ="textsize-2">
-                <div class ="sellerNextAgree"></div>
-                가입 &nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 약관동의&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 정보입력 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 가입완료
-            </div>
+                <div class = "box" >가입</div>
+                <div class = "box" style="border-top: solid 5px; border-color: #a3d060;">약관동의</div>
+                <div class = "box">정보입력</div>
+                <div class = "box">가입완료</div>
+               
             <br>
             <span class = "textsize-1 textcolor-red ">!필수 항목에 모두 동의해주세요</span>
             <div class =" brd-lightgreen btn-round ">
@@ -52,15 +57,18 @@
                         <input class = "text-left" type="checkbox" name ="check1" value="agreeTotal">&nbsp&nbsp&nbsp전체 약관 동의</span><br>
                         <input type="checkbox" name ="check2" value="agree1">&nbsp&nbsp&nbsp[필수]서비스 이용 약관 동의<br>
                         <input type="checkbox" name ="check2" value="agree1">&nbsp&nbsp&nbsp[필수]개인정보 수집 및 이용에 동의<br>
-                        <input type="checkbox" name ="check2" value="agree1">&nbsp&nbsp&nbsp[선택]긴급 할인 등 정보,혜택 수신 동의<br>
-                        &nbsp&nbsp&nbsp&nbsp<input type="checkbox" name ="smsagree" value="smsagree">&nbsp&nbsp&nbsp&nbsp SMS &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        <input type="checkbox" name ="emailagree" value="emailagree">&nbsp&nbsp&nbsp이메일<br>
+                        <input type="checkbox" name ="check2" value="yes">&nbsp&nbsp&nbsp[선택]긴급 할인 등 정보,혜택 수신 동의<br>
+                        &nbsp&nbsp&nbsp&nbsp<input type="checkbox" name ="sms_agreement" value="yes">&nbsp&nbsp&nbsp&nbsp SMS &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input type="checkbox" name ="email_agreement" value="yes">&nbsp&nbsp&nbsp이메일<br>
                         <input type="checkbox" name ="check2" value="agree1">&nbsp&nbsp&nbsp[필수]본인은 만 14세 이상입니다.<br>
                         <br>
                         </p>
                 <br>
                 <button class = "btn-long bg-lightgray margin textsize-1 border-0 btn-round">
                     필수 항목에 모두 동의해주세요.
+                </button>
+                <button type="submit" class = "btn-long bg-lightgreen margin textsize-1 border-0 btn-round">
+                    다음으로
                 </button>
                 <br><br>
             </div>

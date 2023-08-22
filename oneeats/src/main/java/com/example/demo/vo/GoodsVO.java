@@ -24,9 +24,14 @@ public class GoodsVO {
 	private String category;
 	private String type;
 	private int memberNo;
-	private String memberName;
+	private String sellerName;
 	
-	
+	public String getSellerName() {
+		return sellerName;
+	}
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
 	public int getGoodsNo() {
 		return goodsNo;
 	}
@@ -143,13 +148,6 @@ public class GoodsVO {
 				+ ", img3=" + img3 + ", img4=" + img4 + ", img5=" + img5 + ", category=" + category + ", type=" + type
 				+ ", memberNo=" + memberNo + "]";
 	}
-	public String getMemberName() {
-		return memberName;
-	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-	}
-	
 	
 	
 	

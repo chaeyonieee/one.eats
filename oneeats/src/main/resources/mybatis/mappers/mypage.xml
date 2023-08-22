@@ -34,7 +34,7 @@
 	</resultMap>
 	
   
-  <resultMap id="MemberResult" type="MemberVO">
+  <resultMap id="MemberResult" type="memberVO">
 		<result property="memberNo" column="memberNo" />
 		<result property="type" column="type" />
 		<result property="id" column="id" />
@@ -57,6 +57,14 @@
 		<result property="point" column="point" />
 	</resultMap> 
   
+  <resultMap id="BookResult" type="bookmarkVO">
+		<result property="memberNo" column="memberNo" />
+		<result property="goodsNo" column="goodsNo" />
+		<result property="img1" column="img1" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+	</resultMap> 
+	
 	<select id="selectOrderList" resultMap="orderResult">
 		<![CDATA[
 			select orderplusgoods.*,orderGun.gun from (select t_order.*,goods.name as goodsName,goods.img1 as goodsImg from t_order inner join goods on t_order.goodsNo=goods.goodsNo) 
@@ -65,6 +73,25 @@
 		]]>
 	</select>
 
+	<select id="selectOrderByOrderNo" resultMap="orderResult"  parameterType="int">
+		<![CDATA[
+			select t_order.*, goods.name as goodsName, goods.img1 as goodsImg, goods.price as goodsPrice, goods.weight from t_order inner join goods on t_order.goodsNo=goods.goodsNo
+			where t_order.orderNo=#{orderNo}
+		]]>
+	</select>
+	
+	<insert id="insertOrderList" parameterType="java.util.List">
+		<![CDATA[
+  			insert into t_order (orderer_name, orderer_phone, reciever_name, reciever_address, reciever_phone, reciever_comment, used_point, used_couponId, 
+                       payment_price, discount_price, shippingfee, point_price, total_price, payment_type)
+  			values
+  			<foreach collection="list" item="order" separator=",">
+    		(#{order.orderer_name}, #{order.orderer_phone}, #{order.reciever_name}, #{order.reciever_address}, #{order.reciever_phone}, #{order.reciever_comment},
+    		#{order.used_point}, #{order.used_couponId}, #{order.payment_price}, #{order.discount_price}, #{order.shippingfee}, #{order.point_price},
+    		#{order.total_price}, #{order.payment_type})
+  			</foreach>
+		]]>
+	</insert>
 	
 	 <select id="selectMypageList" resultType="memberVO"  parameterType="String"  >
 	    <![CDATA[
@@ -73,9 +100,21 @@
 		]]>
 	</select>
 	
-	<update id="mypageintroupdate" parameterType="java.util.HashMap">
+	<update id="mypageintroupdate" parameterType="java.util.HashMap">.
 	   update member set
 			  nickname=#{nickname},intro=#{intro}
 			  where id=#{id}
 	</update>	
+	
+	<!-- 민아 찜 : 상품이름, 가격, 이미지-->
+	<select id="selectBookList" resultMap="BookResult">
+		<![CDATA[
+			select  goods.memberNo, goods.goodsNo, goods.name, goods.price, goods.img1 from bookmark 
+			inner join goods 
+			on bookmark.goodsNo=goods.goodsNO where bookmark.memberNO=1
+		]]>
+	</select> 
+	
+	
+	
 </mapper>

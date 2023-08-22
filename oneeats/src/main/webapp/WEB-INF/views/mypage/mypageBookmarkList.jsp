@@ -67,8 +67,18 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
         margin-left: 40px;
         background-color: rgb(245, 245, 245);
       }
+.booktext{
+  width:200px;
+}
 
-
+.book{
+  width:300px;
+}
+.bookserve{
+  width:80px; 
+  height:29px; 
+  margin-bottom: 5px;
+}
 
     </style>
     </head>
@@ -76,25 +86,36 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
     <form method="post" action="#">
     <div class="div-p ">
         <br>
-        <p class=" textsize-2 text-left textcolor-black textbold">찜한 상품(3) &nbsp <span class ="textsize-1 textcolor-lightgray">찜한 상품은 최대 100개까지 저장합니다.</span></p>
+        <p class=" textsize-2 text-left textcolor-black textbold">찜한 상품 &nbsp <span class ="textsize-1 textcolor-lightgray">찜한 상품은 최대 100개까지 저장합니다.</span></p>
     <hr class="linebold">
     <br>
+   <c:forEach var="item" items="${bookList}" varStatus="status">
     <table>
       <tr>
-        <hr>
         <td>
           <img
               class="img-01"
-              src="${contextPath}/img/product/details/product-details-1.jpg"
+              src="${contextPath}/download.do?imageFileName=${item.img1}&path=goods"
               alt="상품 이미지"
             />
         </td>
-        <td calss ="text-right">
-          못난이 당근
+        <td class ="booktext text-center" >
+         ${item.name}
+         <br>
+         <span class = "textsize-1">${item.price}원</span>
+        </td>
+        <td>
+          <div class=" book text-right">
+            <button class =" bookserve bg-lightgreen textsize-1 border-0 margin btn-round" >장바구니</button>
+            <br>
+            <button type="button" onclick="location.href='${contextPath}/mypage/deleteBook.do'" class ="bookserve bg-lightgreen textsize-1 border-0 margin btn-round">삭제</button>
+          </div>
         </td>
       </tr>
+      <hr>
     </table>
-
+    
+  </c:forEach>
         <br><br>
         <div id="wrapper">
             <main id="product">
