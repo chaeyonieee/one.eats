@@ -11,6 +11,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mypage.dao.MypageDAO;
+import com.example.demo.vo.CouponVO;
+import com.example.demo.vo.DeliveryAddressVO;
 import com.example.demo.vo.MemberVO;
 import com.example.demo.vo.OrderVO;
 
@@ -30,8 +32,28 @@ public class MypageServiceImpl implements MypageService{
 	}
 	
 	@Override
+	public List<CouponVO> selectCouponByMemberNo(int memberNo) throws Exception{
+		return mypageDAO.selectCouponByMemberNo(memberNo);
+	}
+	
+	@Override
 	public void insertOrderList(List<OrderVO> orderList) {
 		mypageDAO.insertOrderList(orderList);
+	}
+	
+	@Override
+	public int selectNewOrderNo() {
+		return mypageDAO.selectNewOrderNo();
+	}
+
+	@Override
+	public int[] selectSeqNoByOrderNo(int orderNo) {
+		return mypageDAO.selectSeqNoByOrderNo(orderNo);
+	}
+
+	@Override
+	public void updateOrder(int order_seqNo) {
+		mypageDAO.updateOrder(order_seqNo);
 	}
 
 	@Override
@@ -50,10 +72,10 @@ public class MypageServiceImpl implements MypageService{
 	
 	//민아 찜
 	@Override
-	public List selectBookList() throws DataAccessException {
+	public List selectBookList(MemberVO memberInfo) throws DataAccessException {
 		System.out.println("selectBookList Service");
 		List bookList = null;
-		bookList = mypageDAO.selectBookList();
+		bookList = mypageDAO.selectBookList(memberInfo);
 		return bookList;
 	}
 	
@@ -62,5 +84,16 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.deleteBookMark(id);
 	}
 	
+	@Override
+	public List<CouponVO> couponSearch(MemberVO memberInfo) throws DataAccessException{
+		List<CouponVO> couponVO = mypageDAO.couponSearch(memberInfo);
+		return couponVO;
+	}
+	
+	@Override
+	public List<DeliveryAddressVO> myAddress(int memberNo) throws DataAccessException{
+		List<DeliveryAddressVO> myAddressVO = mypageDAO.myAddress(memberNo);
+		return myAddressVO;
+	}
 
 }

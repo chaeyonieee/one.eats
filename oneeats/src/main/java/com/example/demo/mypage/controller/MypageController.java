@@ -11,8 +11,13 @@ import com.example.demo.vo.OrderVO;
 
 public interface MypageController {
 	public ModelAndView orderList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	public ModelAndView orderDetail(@RequestParam("orderNo") int orderNo, HttpServletRequest request, HttpServletResponse response)  throws Exception;
-	public ModelAndView newOrder(@ModelAttribute("info") OrderVO orderVO,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	public ModelAndView orderConfirm(@RequestParam("memberNo") int memberNo, HttpServletRequest request, HttpServletResponse response)  throws Exception;
+	
+	public ModelAndView newOrder(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	public ModelAndView myPageMain(String message, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView deleteMember(HttpServletRequest request, HttpServletResponse response)  throws Exception;
@@ -20,5 +25,15 @@ public interface MypageController {
 	public ModelAndView bookList(HttpServletRequest request, HttpServletResponse response)  throws Exception;
 	
 	public ModelAndView deleteBook(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	public ModelAndView couponSearch(HttpServletRequest request, HttpServletResponse response)  throws Exception;
+
+	//민아 배송지관리 - 출력
+	public ModelAndView myAddress(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	//민아 회원정보수정1
+	public ModelAndView mypageMemberMod(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	//민아 회원정보수정2
+	public ModelAndView mypageMemberModInfo(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }

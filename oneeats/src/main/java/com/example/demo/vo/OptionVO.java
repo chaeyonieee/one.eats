@@ -3,7 +3,7 @@ package com.example.demo.vo;
 
 import org.springframework.stereotype.Component;
 
-@Component("OptionVO")
+@Component("optionVO")
 public class OptionVO {
 	
 	public OptionVO() { 

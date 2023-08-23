@@ -11,84 +11,11 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-      .css-select {
-        flex: 1 1 0%;
-        font-weight: 500;
-        color: rgb(51, 51, 51);
-        line-height: 1.36;
-        display: -webkit-box;
-        overflow: hidden;
-        word-break: break-all;
-        white-space: normal;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-      }
-
-      .css-address {
-        flex: 1 1 0%;
-        font-weight: 500;
-        color: rgb(51, 51, 51);
-        line-height: 1.36;
-        display: -webkit-box;
-        overflow: hidden;
-        word-break: break-all;
-        white-space: normal;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-      }
-
-      .css-1ccl3pq {
-        display: flex;
-        padding-top: 6px;
-        flex-direction: row;
-        color: rgb(0, 0, 0);
-        line-height: 20px;
-      }
-
-      .css-1fttcpj {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-      }
-      .div-p {
-        padding: 0 12px;
-      }
-
-      .btn-coupon {
-        width: 210px;
-        height: 38px;
-      }
-
-      .btn-couponsubmit {
-        width: 70px;
-        height: 38px;
-      }
-
-      ul {
-        list-style: none;
-      }
-
-      li {
-        float: left;
-        margin-right: 53px;
-      }
-
-      .point {
-        text-align: center;
-        margin: 0 auto;
-        width: 250px;
-        height: 80px;
-        padding: 40px 0;
-      }
-    </style>
+    <link rel="stylesheet" href="${contextPath}/css/mina.css" />
+   
   </head>
   <body>
-    <form method="post" action="#">
+    <form method="post" action="${contextPath}/mypage/couponSearch.do">
       <div class="div-p">
         <br />
         <p class="textsize-2 text-left textcolor-black textbold">
@@ -101,16 +28,7 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
         <hr class="linebold" />
         <br />
         <span class="textbold" style="text-align: left">쿠폰</span>
-        <div
-          style="
-            width: 742px;
-            height: 95px;
-            border-color: lightgray;
-            border-style: solid;
-            text-align: left;
-          "
-          class="btn-border"
-        >
+        <div class="btn-border one_div">
           <div>
             <br />
             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -123,8 +41,8 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
               name="couponNo"
             />
             <button
-              class="btn-couponsubmit bg-lightgreen textsize-0 border-0 margin textbold textsize-1"
-            >
+              type="submit"
+              class="btn-couponsubmit bg-lightgreen textsize-0 border-0 margin textbold textsize-1">
               쿠폰등록
             </button>
             <br />
@@ -136,31 +54,29 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
             <br />
           </div>
         </div>
-        <table>
-          <tr>
-            <td>쿠폰명</td>
-            <td style="margin-left: 200px">기능</td>
+        <br />
+        <table class="coupontd">
+          <tr class="coupontr textbold">
+            <td style="width: 200px; text-align: left">&nbsp&nbsp쿠폰명</td>
+            <td style="width: 170px">기능</td>
             <td>할인적립</td>
             <td>사용가능기간</td>
             <td>사용여부</td>
           </tr>
+          <c:forEach var="item" items="${couponDetail}" varStatus="status">
+          <tr class="coupontr">
+            <td style="width: 200px; text-align: left">
+              &nbsp&nbsp${item.name}
+            </td>
+            <td style="width: 170px">쿠폰</td>
+            <td>${item.discount_price}</td>
+            <td>${item.expDate}</td>
+            <td>${item.condition}</td>
+          </tr>
+          </c:forEach>
         </table>
-        <hr />
-
-        <ul>
-          <li>쿠폰명</li>
-          <li style="margin-left: 200px">기능</li>
-          <li>할인적립</li>
-          <li>사용가능기간</li>
-          <li>사용여부</li>
-        </ul>
-        <br />
-        <hr />
-        <br />
-        <span class="textsize-1">쿠폰 내역이 존재하지 않습니다.</span>
         <br />
         <br />
-        <hr />
         <br />
         <div id="wrapper">
           <main id="product">
@@ -187,88 +103,65 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
             </section>
           </main>
         </div>
+
         <br />
         <br />
-        <div
-          style="
-            width: 371.5px;
-            height: 94.5px;
-            border-color: lightgray;
-            border-style: solid;
-            text-align: left;
-            float: left;
-          "
-          class="btn-border"
-        >
-          <div class="point textsize-1">
-            현재
-            적립금&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            0원
+        <div style="width:750px; height: 80px; text-align: center;">
+          <div class ="pointd textsize-1"> 
+            <div style="margin-top: 20px;">
+            현재 적립금<br>0원
+           </div>
           </div>
+          <div class ="pointd textsize-1">
+            <div style="margin-top: 20px;">
+            소멸예정 적립금<br>0원</div></div>
         </div>
-        <div
-          style="
-            width: 371.5px;
-            height: 94.5px;
-            border-color: lightgray;
-            border-style: solid;
-            text-align: left;
-            float: left;
-          "
-          class="btn-border"
-        >
-          <div class="point textsize-1">
-            소멸 예정
-            적립금&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            0원
-          </div>
+        <br>
+        <table class="coupontd">
+          <tr class="coupontr textbold">
+            <td style="width: 200px; text-align: left">&nbsp&nbsp내용</td>
+            <td style="width: 170px">날짜</td>
+            <td>유효기간</td>
+            <td>금액</td>
+          </tr>
+          <tr class="coupontr">
+            <td style="width: 200px; text-align: left">
+              &nbsp&nbsp회원가입 환영 적립금
+            </td>
+            <td style="width: 170px">2022.05.06</td>
+            <td>2034.06.24</td>
+            <td>2000 point</td>
+          </tr>
+        </table>
+        <br />
+        <br />
+        <br />
+        <div id="wrapper">
+          <main id="product">
+            <section class="view">
+              <article class="review">
+                <div class="paging">
+                  <span class="prev">
+                    <a href="#">< 이전</a>
+                  </span>
+                  <span class="num">
+                    <a href="#" class="on">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">6</a>
+                    <a href="#">7</a>
+                  </span>
+                  <span class="next">
+                    <a href="#">다음 ></a>
+                  </span>
+                </div>
+              </article>
+            </section>
+          </main>
         </div>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <hr />
-      <ul>
-        <li style="margin-left: 20px">날짜</li>
-        <li style="margin-left: 40px">내용</li>
-        <li style="margin-left: 290px">유효기간</li>
-        <li style="margin-left: 40px">금액</li>
-      </ul>
-      <br />
-      <hr />
-      <br />
-      <span class="textsize-1">적립금 내역이 존재하지 않습니다.</span>
-      <br />
-      <br />
-      <hr />
-      <br />
-      <div id="wrapper">
-        <main id="product">
-          <section class="view">
-            <article class="review">
-              <div class="paging">
-                <span class="prev">
-                  <a href="#">< 이전</a>
-                </span>
-                <span class="num">
-                  <a href="#" class="on">1</a>
-                  <a href="#">2</a>
-                  <a href="#">3</a>
-                  <a href="#">4</a>
-                  <a href="#">5</a>
-                  <a href="#">6</a>
-                  <a href="#">7</a>
-                </span>
-                <span class="next">
-                  <a href="#">다음 ></a>
-                </span>
-              </div>
-            </article>
-          </section>
-        </main>
-      </div>
-      <br />
+        <br><br>
     </form>
   </body>
 </html>
