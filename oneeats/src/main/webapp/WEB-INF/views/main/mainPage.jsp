@@ -79,11 +79,11 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
                   <div class="col-lg-4">
                     <div
                       class="product__discount__item"
-                      onclick="location.href='${contextPath}/goods/goodsDetail.do?goodsNo=${item.hotdealNo}'"
+                      onclick="location.href='${contextPath}/goods/hotdealDetail.do?hotdealNo=${item.hotdealNo}'"
                     >
                       <div
                         class="product__discount__item__pic set-bg"
-                        data-setbg="${contextPath}/download.do?imageFileName=${item.goodsImg}&path=goods"
+                        data-setbg="${contextPath}/download.do?imageFileName=${item.goodsImg}&path=goodsNo${item.goodsNo}"
                         style="
                           background-image: url('${contextPath}/download.do?imageFileName=${item.goodsImg}&path=goodsNo${item.goodsNo}');
                         "
@@ -213,7 +213,7 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
                 class="text-left"
                 style="font-size: 18px; padding-bottom: 6px"
               >
-                New Products
+                새 상품
               </h4>
               <div class="latest-product__slider owl-carousel">
                 <c:forEach items="${newGoodsList}" varStatus="loop" step="3">
@@ -270,7 +270,7 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
                       >
                         <div class="latest-product__item__pic">
                           <img
-                            src="${contextPath}/download.do?imageFileName=${item.img1}&path=goods"
+                            src="${contextPath}/download.do?imageFileName=${item.img1}&path=goodsNo${item.goodsNo}"
                             style="width: 110px"
                             ;
                           />
@@ -314,7 +314,7 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
                       >
                         <div class="latest-product__item__pic">
                           <img
-                            src="${contextPath}/download.do?imageFileName=${item.img1}&path=goods"
+                            src="${contextPath}/download.do?imageFileName=${item.img1}&path=goodsNo${item.goodsNo}"
                             style="width: 110px"
                             ;
                           />
@@ -349,7 +349,10 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
         <div class="row">
           <c:forEach var="i" items="${newRecipeList }">
             <div class="col-lg-4 col-md-4 col-sm-6">
-              <div class="blog__item">
+              <div
+                class="blog__item"
+                onclick="location.href='${contextPath}/community/recipe/recipeDetail.do?recipeNo=${i.recipeNo}'"
+              >
                 <div class="blog__item__pic">
                   <img
                     src="${contextPath}/download.do?imageFileName=${i.cookingImg}&path=recipeNo${i.recipeNo}"
