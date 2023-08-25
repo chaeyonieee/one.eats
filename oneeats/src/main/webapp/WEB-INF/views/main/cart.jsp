@@ -84,10 +84,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
     <c:set var="shippingFee" value="0" />
 
     <section class="shoping-cart spad">
-      <form
-        action="${contextPath}/mypage/orderConfirm.do?memberNo=${memberInfo.memberNo}"
-        method="post"
-      >
+      <form action="${contextPath}/mypage/orderConfirm.do" method="post">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
@@ -345,10 +342,6 @@ uri="http://java.sun.com/jsp/jstl/core"%>
         $(".noshipping_price_text").text(noshipping_price);
         $(".total_price_text").text(total_price);
       }
-
-      $(document).ready(function () {
-        $();
-      });
 
       $(document).on("click", ".goods_option_plus_btn", function () {
         var goodsOptionVar = $(this).parent().find(".goodsQty_input").val();

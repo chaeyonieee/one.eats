@@ -1,5 +1,6 @@
 package com.example.demo.member.controller;
 
+import java.sql.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,9 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.common.alert.Alert;
+import com.example.demo.common.file.GeneralFileUploader;
 import com.example.demo.member.service.MemberService;
 import com.example.demo.vo.MemberVO;
 
@@ -68,15 +67,34 @@ public class MemberControllerImpl implements MemberController {
 	
 	@Override
 	@RequestMapping(value="/member/register.do" ,method = RequestMethod.POST)
-		public ModelAndView Register(@ModelAttribute("memberVO") MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		public ModelAndView Register(HttpServletRequest request) throws Exception {
 		System.out.println("여기는 register.do");
-		ModelAndView mav = new ModelAndView();
-		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
-		System.out.println(memberVO);
-		int MemberNo = memberService.registerInfoNo();
-		memberVO.setMemberNo(MemberNo);
-		memberService.registerInfo(memberVO);
+		
+		ModelAndView mav = new ModelAndView();
+		int memberNo = memberService.registerInfoNo();
+		Map memberMap = GeneralFileUploader.getParameterMap(request);
+		memberMap.put("memberNo", memberNo);
+		String _birth = (String) memberMap.get("birth");
+		String sms_agreement = (String) memberMap.get("sms_agreement");
+		String email_agreement = (String) memberMap.get("email_agreement");
+		if (_birth == null || _birth.trim().length()<1) {
+			memberMap.put("birth", null);
+		}
+		if (email_agreement == null || email_agreement.trim().length()<1) {
+			memberMap.put("email_agreement","no");
+		}
+		if (sms_agreement == null || sms_agreement.trim().length()<1) {
+			memberMap.put("sms_agreement", "no");
+		}
+		
+		try {
+			memberService.insertMemberWithMap(memberMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
 		mav = Alert.alertAndRedirect("회원가입이 완료되었습니다.", request.getContextPath()+"/member/loginForm.do");
 		return mav;
 	}
