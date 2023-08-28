@@ -92,6 +92,15 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                 <table>
                   <thead>
                     <tr>
+                      <th id="cart_all_check_th">
+                        <input
+                          class="cart_checkbox form-check-input"
+                          type="checkbox"
+                          id="cart_all_checkbox"
+                          checked
+                        />
+                        선택
+                      </th>
                       <th class="shoping__product">상품명</th>
                       <th>원가</th>
                       <th>할인가격</th>
@@ -172,6 +181,13 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                               type="hidden"
                               value="${cart.optionPrice * cart.goodsQty}"
                             />
+                            <td>
+                              <input
+                                type="checkbox"
+                                class="cart_checkbox form-check-input"
+                                checked
+                              />
+                            </td>
                             <td class="vertical-align">
                               <img
                                 src="${contextPath}/download.do?imageFileName=${cart.goodsImg}&path=goodsNo${cart.goodsNo}"
@@ -321,6 +337,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
     <!-- Shoping Cart Section End -->
 
     <script>
+      var removeValUrl = "${contextPath}/removeCartItem.do";
+
       var shippingFee = parseInt("${shippingFee}");
       var payment_price = parseInt("${payment_price}");
       var discount_price = parseInt("${discount_price}");
@@ -341,6 +359,38 @@ uri="http://java.sun.com/jsp/jstl/core"%>
         $(".discount_price_text").text(discount_price);
         $(".noshipping_price_text").text(noshipping_price);
         $(".total_price_text").text(total_price);
+      }
+
+      function fn_uncheckCartItem(row) {
+        var row_discount_price = parseInt(
+          row.find(".h_row_discount_price").val()
+        );
+        var row_total_price = parseInt(row.find(".h_row_total_price").val());
+        var row_payment_price = parseInt(
+          row.find(".h_row_payment_price").val()
+        );
+
+        payment_price = parseInt(payment_price) - row_payment_price;
+        discount_price = parseInt(discount_price) - row_discount_price;
+        total_price = parseInt(total_price) - row_total_price;
+        calculate();
+        changeTexts();
+      }
+
+      function fn_checkCartItem(row) {
+        var row_discount_price = parseInt(
+          row.find(".h_row_discount_price").val()
+        );
+        var row_total_price = parseInt(row.find(".h_row_total_price").val());
+        var row_payment_price = parseInt(
+          row.find(".h_row_payment_price").val()
+        );
+
+        payment_price = parseInt(payment_price) + row_payment_price;
+        discount_price = parseInt(discount_price) + row_discount_price;
+        total_price = parseInt(total_price) + row_total_price;
+        calculate();
+        changeTexts();
       }
 
       $(document).on("click", ".goods_option_plus_btn", function () {
@@ -435,6 +485,57 @@ uri="http://java.sun.com/jsp/jstl/core"%>
           changeTexts();
         }
       });
+
+      $(document).on("click", ".cart_remove_btn", function () {
+        var parentRow = $(this).closest(".cart_goods_row");
+        var row_option_qty = parseInt(
+          parentRow.find(".h_row_option_qty").val()
+        );
+        var row_option_No = parseInt(parentRow.find(".h_option_no").val());
+
+        $.ajax({
+          type: "POST",
+          url: removeValUrl,
+          data: { num: row_option_No },
+          success: function (response) {
+            if (response == "success") {
+              alert("삭제되었습니다.");
+              fn_uncheckCartItem(parentRow);
+              parentRow.remove();
+            } else {
+              alert("카트에서 삭제하지 못 했습니다.");
+            }
+          },
+          error: function (response) {
+            alert("원인불명의 에러");
+            console.log(response);
+          },
+        });
+      });
+
+      $(document).ready(function () {
+        $(".cart_all_checkbox").change(function () {
+          if ($(this).is(":checked")) {
+            $(".cart_checkbox").prop("checked", true);
+          } else {
+            $(".cart_checkbox").prop("checked", false);
+          }
+        });
+
+        $(".cart_checkbox").change(function () {
+          var isChecked = $(this).is(":checked");
+          var parentRow = $(this).closest(".cart_goods_row");
+          var hRowPriceElement = parentElement.find(".h_row_price");
+
+          if (isChecked) {
+            fn_uncheckCartItem();
+          } else {
+            hRowPriceElement.text("0");
+          }
+        });
+      });
+
+      $(document).ready(function () {});
     </script>
   </body>
 </html>

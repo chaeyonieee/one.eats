@@ -171,9 +171,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                           <dl class="property-flex2">
                             <dt class="property-input-gd">판매자</dt>
                             <dd class="property-flex4">
-                              <span class="property-input"
-                                >${goods.sellerName}</span
-                              >
+                              <span class="property-input">원이츠</span>
                             </dd>
                           </dl>
                           <dl class="property-flex2">
@@ -691,7 +689,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 
     <!--옵션을 선택할 때마다 행이 추가됨-->
     <script>
-      var storeValueUrl = "${contextPath}" + "/storeValue.do";
+      var storeValueUrl = "${contextPath}" + "/addCartToListValue.do";
       var goodsPrice = "${goods.price}";
       goodsPrice = parseInt(goodsPrice);
       var cartPage = "${contextPath}/main/cart.do";

@@ -15,6 +15,12 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
       var rotateArray = new Array(0, 0, 0, 0, 0);
     </script>
     <script src="${contextPath}/js/side.js"></script>
+    <style>
+      .recipe_search_type_select .nice-select {
+        width: 90%;
+        margin: auto;
+      }
+    </style>
   </head>
   <body>
     <div class="row">
@@ -23,7 +29,24 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
           <div id="side_menu_title">
             <span>&nbsp;&nbsp;레시피</span>
           </div>
-          <form action="">
+          <form action="${contextPath}/community/recipe/recipeList.do">
+            <div
+              class="toggle-btn textsize-1 tesxt-right"
+              style="margin-right: 8px"
+            >
+              상세검색
+            </div>
+            <div
+              class="toggle-content recipe_search_type_select"
+              style="padding-left: 8px; padding-right: 8px; margin: auto"
+            >
+              <select name="recipe_search_type">
+                <option value="">전체</option>
+                <option value="title">제목</option>
+                <option value="description">만드는 법</option>
+              </select>
+              <div>&nbsp;</div>
+            </div>
             <div
               class="input-group textsize-1"
               style="
@@ -37,6 +60,7 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
               <input
                 type="text"
                 placeholder="레시피 검색..."
+                name="recipe_search_word"
                 class="form-control"
                 style="height: 100%"
               />
@@ -59,7 +83,7 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
                   style="width: 100%"
                   onclick="fn_slideToggle(1);"
                 >
-                  전체(15)
+                  전체(${totalRecipeNum})
                   <img
                     id="arrow_1"
                     src="${contextPath}/img/icon/uparrow.png"
@@ -72,8 +96,20 @@ uri ="http://java.sun.com/jsp/jstl/core" %>
                   class="textsize-1"
                   style="margin-left: 12px; margin-top: 12px"
                 >
-                  <li><a href="">10분 간단 레시피(10)</a></li>
-                  <li><a href="">영양만점 레시피(5)</a></li>
+                  <c:forEach
+                    items="${recipeNumMap}"
+                    var="numsMap"
+                    varStatus="i"
+                  >
+                    <c:if test="${i.index>0}">
+                      <li>
+                        <a
+                          href="${contextPath}/community/recipe/recipeList.do?category=${numsMap.category}"
+                          >${numsMap.category}(${numsMap.cnt})</a
+                        >
+                      </li>
+                    </c:if>
+                  </c:forEach>
                 </ul>
               </div>
             </li>

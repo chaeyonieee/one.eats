@@ -3,6 +3,30 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
-	<mapper namespace="com.example.demo.admin.coupon.dao.AdminCouponDAO">
+<mapper namespace="com.example.demo.admin.coupon.dao.AdminCouponDAO">
+
+	<resultMap id="CouponResult" type="couponVO">
+		<result property="couponNo" column="couponNo" />
+		<result property="name" column="name" />
+		<result property="discount_price" column="discount_price" />
+		<result property="condition" column="condition" />
+		<result property="expDate" column="expDate" />
+		<result property="creDate" column="creDate" />
+		<result property="memberNo" column="memberNo" />
+	</resultMap>
+	
+	<select id="adminCouponByMemberNo" resultMap="CouponResult" parameterType="int">
+		<![CDATA[
+			select * from coupon where memberNo=#{memberNo};
+		]]>
+	</select>
+	
+	<insert id="insertAdminCoupon" parameterType="CouponVO">
+		<![CDATA[
+			insert into coupon (name, discount_price, condition, expDate, memberNo)
+	     	values
+	     	(#{name}, #{discount_price}, #{condition}, {expDate}, #{memberNo})
+		]]>
+	</insert>
 
 </mapper>

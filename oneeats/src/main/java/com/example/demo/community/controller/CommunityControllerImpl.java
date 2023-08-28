@@ -1,6 +1,7 @@
 package com.example.demo.community.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import com.example.demo.common.file.GeneralFileUploader;
 import com.example.demo.community.service.CommunityService;
 import com.example.demo.vo.IngredientVO;
 import com.example.demo.vo.MemberVO;
+import com.example.demo.vo.NoticeVO;
 import com.example.demo.vo.RecipeVO;
 
 @Controller("communityController")
@@ -55,7 +58,7 @@ public class CommunityControllerImpl implements CommunityController {
 			section = Integer.parseInt(_section);
 		}
 
-		Map pagingMap = new HashMap();
+		Map pagingMap = GeneralFileUploader.getParameterMap(request);
 		pagingMap.put("category", category);
 		pagingMap.put("section", section);
 		pagingMap.put("pageNum", pageNum);
@@ -67,6 +70,30 @@ public class CommunityControllerImpl implements CommunityController {
 		mav.addObject("newRecipeList", newRecipeList);
 		mav.addAllObjects(pagingMap);
 
+		List<Map> resultMap = communityService.countRecipeNums();
+		// 등록된 레시피가 몇 개인지
+		long totalRecipeNum = (long) resultMap.get(0).get("cnt") ;
+		// 현재 보고 있는 카테고리의 레시피가 몇 개인지
+		long searchRecipeNum = -1;
+		// Output the result
+		for (Map<String, Object> row : resultMap) {
+			String cate = (String) row.get("category");
+			long count = (long) row.get("cnt");
+			System.out.println("Category: " + cate + ", Count: " + count);
+			if (cate.equals(category)) {
+				searchRecipeNum = count;
+			}
+		}
+		
+		if (searchRecipeNum<0) {
+			searchRecipeNum = totalRecipeNum;
+		}
+		
+
+		
+		mav.addObject("recipeNumMap", resultMap);
+		mav.addObject("totalRecipeNum", totalRecipeNum);
+		mav.addObject("searchRecipeNum",searchRecipeNum);
 		System.out.println(mav);
 
 		return mav;
@@ -237,6 +264,49 @@ public class CommunityControllerImpl implements CommunityController {
 		return mav;
 
 	}
+	
+	
+	//민아 공지사항리스트
+	@Override
+	@RequestMapping(value = "/notice/noticeList.do")
+	public ModelAndView noticeList(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("여기는 community noticeList Controller");
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		System.out.println("viewName = "+ viewName);
+		List<NoticeVO> noticeList = communityService.noticeList();
+		System.out.println("noticeList = "+noticeList);
+		mav.addObject("noticeList", noticeList);
+		mav.setViewName(viewName);
+		return mav;
+
+	}
+	
+	//공지사항 디테일
+	@Override
+	@RequestMapping(value = "/notice/noticeDetail.do")
+	public ModelAndView noticeDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		String noticeNo1 = request.getParameter("noticeNo");
+		int noticeNo = Integer.parseInt(noticeNo1);
+		int noticeNoBefore= noticeNo-1; // 이전
+		int noticeNoAfter= noticeNo+1; // 다음
+		NoticeVO noticeVO = communityService.noticeDetail(noticeNo);
+		NoticeVO noticeVOBefore = communityService.noticeDetail(noticeNoBefore);
+		NoticeVO noticeVOAfter = communityService.noticeDetail(noticeNoAfter);
+		
+		System.out.println("noticeVO = "+noticeVO);
+		System.out.println("noticeBefore = "+noticeVOBefore);
+		System.out.println("noticeVOAfter = "+noticeVOAfter);
+		mav.addObject("notice", noticeVO);
+		mav.addObject("noticeBefore", noticeVOBefore);
+		mav.addObject("noticeAfter", noticeVOAfter);
+		mav.setViewName(viewName);
+		return mav;
+
+	}
 
 	private ModelAndView redirectAlertMessage(String msg, String page) {
 		ModelAndView mav = new ModelAndView("/alert");
@@ -244,26 +314,5 @@ public class CommunityControllerImpl implements CommunityController {
 		mav.addObject("redirectPage", page);
 		return mav;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

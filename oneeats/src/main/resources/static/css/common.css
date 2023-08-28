@@ -120,11 +120,11 @@
 .linebold {
   border: 0px;
   height: 2px;
-  background-color: black;
+  background-color: #333333;
 }
 
 .textcolor-black {
-  color: #2c3333;
+  color: #333333;
 }
 .textcolor-white {
   color: #ffffff;
@@ -246,8 +246,8 @@ hr.line-black {
 }
 hr.line-gray {
   border: 0px;
-  height: 2px;
-  background-color: gray;
+  height: 1px;
+  background-color: #b3b3b3;
   margin: 4px;
 }
 
