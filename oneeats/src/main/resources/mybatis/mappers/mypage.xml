@@ -76,6 +76,8 @@
 		<result property="creDate" column="creDate" />
 		<result property="memberNo" column="memberNo" />
 	</resultMap>
+	
+	
 
 	<resultMap id="DeliveryResult" type="deliveryAddressVO">
 		<result property="receiver_name" column="receiver_name" />
@@ -108,8 +110,7 @@
 		]]>
 	</select>
 
-	<select id="selectOrderByMemberNo" resultMap="OrderResult"
-		parameterType="int">
+	<select id="selectOrderByMemberNo" resultMap="OrderResult" parameterType="int">
 		<![CDATA[
 			select orderplusgoods.*,orderGun.gun from (select t_order.*,goodsAndHotdealView.name as goodsName, 
 			goodsAndHotdealView.img1 as goodsImg from t_order inner join goodsAndHotdealView on t_order.goodsNo=goodsAndHotdealView.goodsNo WHERE t_order.memberNo=#{memberNo}) 
@@ -118,6 +119,41 @@
     		order by orderplusgoods.orderNo
 		]]>
 	</select>
+	
+<!-- 	<select id="selectOrderList" resultMap="OrderResult" parameterType="java.util.Map">
+	
+			select orderplusgoods.*,orderGun.gun from (select t_order.*,goodsAndHotdealView.name as goodsName, 
+			goodsAndHotdealView.img1 as goodsImg from t_order inner join goodsAndHotdealView on t_order.goodsNo=goodsAndHotdealView.goodsNo) 
+			as orderplusgoods inner join (select orderNo, count(*) as gun from t_order group by orderNo) as orderGun
+    		on orderplusgoods.orderNo=orderGun.orderNo
+    		order by orderplusgoods.orderNo 
+			
+			<choose>
+				<when test="order_search_type==null or order_search_type==''">
+					and 1=1
+				</when>
+				<when test="order_search_type=='all'">
+					and () like concat('%', #{order_search_type}, '%')
+					or () like concat('%', #{order_search_type}, '%')
+				</when>
+				<otherwise>
+				 	<choose>
+				 		<when test="order_search_type==''">
+				 			and () like concat('%', #{order_search_type}, '%')
+				 		</when>
+				 		<when test="order_search_type==''">
+				 			and () like concat('%', #{order_search_type}, '%')
+				 		</when>
+				 	</choose>
+				</otherwise>
+			</choose>
+			
+			<if test="category!=null and category!=''">
+				and category=#{category}
+			</if>
+			
+			order by creDate desc limit #{start}, 10
+	</select> -->
 
 	<select id="selectOrderByOrderNo" resultMap="OrderResult"
 		parameterType="int">
@@ -239,8 +275,25 @@ on review.goodsNo=orderplusgoods.goodsNo where review.memberNo=#{memberNo}
 
 		]]>
 	</select>
-
+	
 	<!-- 민아 쿠폰, 적립금 조회 -->
+	<select id="couponNum" resultType="couponVO"
+		parameterType="int">
+		<![CDATA[
+		    select couponNo, name, discount_price, expDate, creDate from coupon 
+			where 
+			couponNo=#{couponNo}
+		]]>
+	</select>
+	
+	<!-- 민아 쿠폰, 적립금 조회 -->
+	<insert id="couponInsert" parameterType="couponVO">
+		<![CDATA[
+		    insert into member_coupon(couponNo, memberNo) 
+		    values(#{couponNo}, #{memberNo})
+		]]>
+	</insert>
+
 	<select id="myAddress" resultMap="DeliveryResult"
 		parameterType="int">
 		<![CDATA[

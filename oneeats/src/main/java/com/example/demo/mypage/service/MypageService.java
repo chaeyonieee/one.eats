@@ -28,6 +28,10 @@ public interface MypageService {
 
 	public void updateDeliveryStatusToCancel(int order_seqNo);
 	
+//	public List<OrderVO> selectOrderList(Map pagingMap);
+//
+//	public List<Map> countOrderNums();
+	
 	public MemberVO listMyPage(String member_id) throws Exception;
 	
 	public void mypageintro(HashMap<String, String> memberMap);
@@ -44,4 +48,7 @@ public interface MypageService {
 	
 	public List<ReviewVO> reviewList(int memberNo) throws DataAccessException;
 	
+	public CouponVO couponNum(int couponNo);
+	
+	public void couponInsert(CouponVO result);
 }

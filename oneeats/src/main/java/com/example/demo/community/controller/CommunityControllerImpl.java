@@ -28,6 +28,7 @@ import com.example.demo.community.service.CommunityService;
 import com.example.demo.vo.IngredientVO;
 import com.example.demo.vo.MemberVO;
 import com.example.demo.vo.NoticeVO;
+import com.example.demo.vo.OneQnAVO;
 import com.example.demo.vo.RecipeVO;
 
 @Controller("communityController")
@@ -58,7 +59,7 @@ public class CommunityControllerImpl implements CommunityController {
 		} else {
 			section = Integer.parseInt(_section);
 		}
-		if (recipe_search_type !=null && recipe_search_type.length()<1) {
+		if (recipe_search_type != null && recipe_search_type.length() < 1) {
 			recipe_search_type = "all";
 		}
 		Map pagingMap = GeneralFileUploader.getParameterMap(request);
@@ -67,16 +68,20 @@ public class CommunityControllerImpl implements CommunityController {
 		pagingMap.put("pageNum", pageNum);
 		pagingMap.put("recipe_search_type", recipe_search_type);
 		pagingMap.put("start", ((section - 1) * 10 + pageNum - 1) * 6);
-
+		System.out.println("section="+section);
+		System.out.println("pageNum="+pageNum);
+		
 		List<RecipeVO> recipeList = communityService.selectRecipeList(pagingMap);
 		List<RecipeVO> newRecipeList = communityService.selectNewRecipeList();
 		mav.addObject("recipeList", recipeList);
 		mav.addObject("newRecipeList", newRecipeList);
 		mav.addAllObjects(pagingMap);
+		System.out.println("recipList="+recipeList);
+		System.out.println("newRecipeList="+newRecipeList);
 
 		List<Map> resultMap = communityService.countRecipeNums();
 		// 등록된 레시피가 몇 개인지
-		long totalRecipeNum = (long) resultMap.get(0).get("cnt") ;
+		long totalRecipeNum = (long) resultMap.get(0).get("cnt");
 		// 현재 보고 있는 카테고리의 레시피가 몇 개인지
 		long searchRecipeNum = -1;
 		// Output the result
@@ -88,16 +93,14 @@ public class CommunityControllerImpl implements CommunityController {
 				searchRecipeNum = count;
 			}
 		}
-		
-		if (searchRecipeNum<0) {
+
+		if (searchRecipeNum < 0) {
 			searchRecipeNum = totalRecipeNum;
 		}
-		
 
-		
 		mav.addObject("recipeNumMap", resultMap);
 		mav.addObject("totalRecipeNum", totalRecipeNum);
-		mav.addObject("searchRecipeNum",searchRecipeNum);
+		mav.addObject("searchRecipeNum", searchRecipeNum);
 		System.out.println(mav);
 
 		return mav;
@@ -197,7 +200,7 @@ public class CommunityControllerImpl implements CommunityController {
 			mav.addObject("redirectPage", request.getContextPath() + "/community/recipe/recipeList.do");
 			mav.setViewName("/alert");
 		}
-
+System.out.println("map : " + map);
 		return mav;
 	}
 
@@ -268,25 +271,24 @@ public class CommunityControllerImpl implements CommunityController {
 		return mav;
 
 	}
-	
-	
-	//민아 공지사항리스트
+
+	// 민아 공지사항리스트
 	@Override
 	@RequestMapping(value = "/notice/noticeList.do")
 	public ModelAndView noticeList(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("여기는 community noticeList Controller");
 		ModelAndView mav = new ModelAndView();
 		String viewName = (String) request.getAttribute("viewName");
-		System.out.println("viewName = "+ viewName);
+		System.out.println("viewName = " + viewName);
 		List<NoticeVO> noticeList = communityService.noticeList();
-		System.out.println("noticeList = "+noticeList);
+		System.out.println("noticeList = " + noticeList);
 		mav.addObject("noticeList", noticeList);
 		mav.setViewName(viewName);
 		return mav;
 
 	}
-	
-	//공지사항 디테일
+
+	// 공지사항 디테일
 	@Override
 	@RequestMapping(value = "/notice/noticeDetail.do")
 	public ModelAndView noticeDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -295,21 +297,48 @@ public class CommunityControllerImpl implements CommunityController {
 		String viewName = (String) request.getAttribute("viewName");
 		String noticeNo1 = request.getParameter("noticeNo");
 		int noticeNo = Integer.parseInt(noticeNo1);
-		int noticeNoBefore= noticeNo-1; // 이전
-		int noticeNoAfter= noticeNo+1; // 다음
+		int noticeNoBefore = noticeNo - 1; // 이전
+		int noticeNoAfter = noticeNo + 1; // 다음
 		NoticeVO noticeVO = communityService.noticeDetail(noticeNo);
 		NoticeVO noticeVOBefore = communityService.noticeDetail(noticeNoBefore);
 		NoticeVO noticeVOAfter = communityService.noticeDetail(noticeNoAfter);
-		
-		System.out.println("noticeVO = "+noticeVO);
-		System.out.println("noticeBefore = "+noticeVOBefore);
-		System.out.println("noticeVOAfter = "+noticeVOAfter);
+
+		System.out.println("noticeVO = " + noticeVO);
+		System.out.println("noticeBefore = " + noticeVOBefore);
+		System.out.println("noticeVOAfter = " + noticeVOAfter);
 		mav.addObject("notice", noticeVO);
 		mav.addObject("noticeBefore", noticeVOBefore);
 		mav.addObject("noticeAfter", noticeVOAfter);
 		mav.setViewName(viewName);
 		return mav;
 
+	}
+
+	// 민아 1:1 문의
+	@Override
+	@RequestMapping(value = "/oneQnA/oneQnAList.do")
+	public ModelAndView oneQnA(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		List<OneQnAVO> oneQnAList = communityService.oneQnAList();
+		System.out.println("oneQnAList 1:1문의 = " + oneQnAList);
+		String viewName = (String) request.getAttribute("viewName");
+		mav.addObject("oneQnAList", oneQnAList);
+		mav.setViewName(viewName);
+		return mav;
+	}
+
+	// 민아 1:1 문의 detail
+	@Override
+	@RequestMapping(value = "/oneQnA/oneQnADetail.do")
+	public ModelAndView oneQnADetail(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		String qnaNo_ = request.getParameter("qnaNo");
+		int qnaNo = Integer.parseInt(qnaNo_);
+		OneQnAVO oneQnADetail = communityService.oneQnADetail(qnaNo);
+		mav.addObject("oneQnAList",oneQnADetail);
+		mav.setViewName(viewName);
+		return mav;
 	}
 
 	private ModelAndView redirectAlertMessage(String msg, String page) {
