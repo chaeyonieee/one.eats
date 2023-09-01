@@ -3,6 +3,7 @@ package com.example.demo.seller.goods.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -246,96 +247,95 @@ public class SellerGoodsControllerImpl implements SellerGoodsController {
 
 		return mav;
 	}
+	
 
-	// 북샵
-	/*
-	 * @Override
-	 * 
-	 * @RequestMapping(value="/seller/goods/modSellerGoods.do", method = {
-	 * RequestMethod.GET, RequestMethod.POST }) public ResponseEntity
-	 * modifyGoodsInfo( @RequestParam("goodsNo") String goodsNo,
-	 * 
-	 * @RequestParam("attribute") String attribute,
-	 * 
-	 * @RequestParam("value") String value, HttpServletRequest request,
-	 * HttpServletResponse response) throws Exception { Map<String,String>
-	 * goodsMap=new HashMap<String,String>(); goodsMap.put("goodsNo", goodsNo);
-	 * System.out.println("나오나요0");
-	 * 
-	 * 
-	 * goodsMap.put(attribute, value);
-	 * 
-	 * 
-	 * 
-	 * sellerGoodsService.modifyGoodsInfo(goodsMap); System.out.println("나오나요1");
-	 * String message = null; ResponseEntity resEntity = null;
-	 * System.out.println("나오나요2"); HttpHeaders responseHeaders = new HttpHeaders();
-	 * message = "mod_success";
-	 * 
-	 * System.out.println("나오나요3"); resEntity =new ResponseEntity(message,
-	 * responseHeaders, HttpStatus.OK); return resEntity; }
-	 * 
-	 */
-	// 북샵
+	@RequestMapping(value = "/seller/goods/sellerGoodsModForm.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView sellerGoodsModForm(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		System.out.println("여기는 sellerGoodsModForm");
+		request.setCharacterEncoding("utf-8");
+		HttpSession session = request.getSession();
+		String viewName = (String) request.getAttribute("viewName");
+		
+		int goodsNo = (Integer.parseInt(request.getParameter("goodsNo")));
+		System.out.println("goodsNo="+goodsNo);
+		GoodsVO sellerGoods = sellerGoodsService.selectGoodsByGoodsNo(goodsNo);
+		System.out.println("sellerGoods=" + sellerGoods);
+		List<OptionVO> options = sellerGoodsService.selectOptionByGoodsNo(goodsNo);
+		System.out.println("options="+options);
 
-	/*
-	 * @Override
-	 * 
-	 * @RequestMapping(value = "/seller/goods/modSellerGoods.do", method = {
-	 * RequestMethod.GET, RequestMethod.POST }) public ModelAndView
-	 * modSellerGoods(HttpServletRequest request, HttpServletResponse response)
-	 * throws IOException {
-	 * 
-	 * request.setCharacterEncoding("utf-8"); int goodsNo =
-	 * (Integer.parseInt(request.getParameter("goodsNo")));
-	 * 
-	 * GoodsVO goodsvo = sellerGoodsService.goodsItem(goodsNo);
-	 * System.out.println("goodsvo:"+goodsvo);
-	 * 
-	 * 
-	 * 
-	 * sellerGoodsService.ModGoods(goodsvo);
-	 * System.out.println("ModGoods:"+goodsvo);
-	 * 
-	 * sellerGoodsService.DeleteGoods(goodsvo);
-	 * System.out.println("DeleteGoods:"+goodsvo);
-	 * 
-	 * 
-	 * // 옵션정보 가져와서 각각의 VO에 저장 String[] optionNames =
-	 * request.getParameterValues("option_name"); // 당근당근 optionX String[]
-	 * System.out.println("optionNames: "+optionNames);//null
-	 * 
-	 * 
-	 * String[] optionQtys = request.getParameterValues("option_qty"); String[]
-	 * optionPrice = request.getParameterValues("option_price"); OptionVO[] options
-	 * = new OptionVO[5]; for (int i = 0; i < options.length; i++) { OptionVO
-	 * optionVO = new OptionVO(); options[i] = optionVO;
-	 * 
-	 * }
-	 * 
-	 * 
-	 * ModelAndView mav = new ModelAndView(); for (int i = 0; i <
-	 * optionNames.length; i++) { if (optionNames[i] != null) {
-	 * options[i].setName(optionNames[i]);
-	 * 
-	 * 
-	 * 
-	 * options[i].setOption_qty(optionQtys[i]); options[i].setPrice(optionPrice[i]);
-	 * options[i].setGoodsNo(goodsNo); System.out.println(options[i]); boolean
-	 * result = sellerGoodsService.optionModGoods(options[i]); if (!result) {
-	 * mav.addObject("redirectMessage", "상품 수정에 실패했습니다.");
-	 * mav.addObject("redirectPage", request.getContextPath() +
-	 * "/seller/goods/sellerGoodsForm.do"); mav.setViewName("/alert"); break; }
-	 * 
-	 * } else { System.out.println("상품 수정 실패"); break; }
-	 * 
-	 * } mav.addObject("goodsvo",goodsvo); System.out.println("상품 수정 성공"); mav =
-	 * Alert.alertAndRedirect("상품을 수정했습니다.", request.getContextPath() +
-	 * "/goods/goodsDetail.do?goodsNo=" + goodsNo); return mav; }
-	 * 
-	 * 
-	 * 
-	 */
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("sellerGoods", sellerGoods);
+		mav.addObject("options", options);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/seller/goods/sellerGoodsMod.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView sellerGoodsMod(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		System.out.println("여기는 sellerGoodsMod");
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String) request.getAttribute("viewName");
+		String[] goods_No_= request.getParameterValues("goodsNo");
+		int[] goodsNo_ = new int[goods_No_.length];
+		for (int i=0; i<goodsNo_.length; i++) {
+			goodsNo_[i] = Integer.parseInt(goods_No_[i]);
+		}
+		int goodsNo = goodsNo_[0];
+		System.out.println("goodsNo="+goodsNo);
+		
+		String category = request.getParameter("category");
+		String name = request.getParameter("name");
+		String price = request.getParameter("price");
+		String rapping = request.getParameter("rapping");
+		String manufacturer = request.getParameter("manufacturer");
+		String weight = request.getParameter("weight");
+		String harvest = request.getParameter("harvest");
+		String description = request.getParameter("description");
+		String[] option_names = request.getParameterValues("option_name");
+		String[] option_qtys = request.getParameterValues("option_qty");
+		String[] option_prices = request.getParameterValues("option_price");
+		System.out.println("option_names="+Arrays.toString(option_names));
+			
+		
+		int[] optionNos = sellerGoodsService.selectOptionNoByGoodsNo(goodsNo);
+		for (int optionNo : optionNos) {
+			sellerGoodsService.deleteOption(optionNo);
+		}
+
+		GoodsVO sellerGoods = new GoodsVO();
+		sellerGoods.setCategory(category);
+		sellerGoods.setName(name);
+		sellerGoods.setPrice(price);
+		sellerGoods.setRapping(rapping);
+		sellerGoods.setManufacturer(manufacturer);
+		sellerGoods.setWeight(weight);
+		sellerGoods.setHarvest(harvest);
+		sellerGoods.setDescription(description);
+		sellerGoods.setGoodsNo(goodsNo);
+		System.out.println("sellerGoods="+sellerGoods);
+		
+		List<OptionVO> selectOptions = new ArrayList();
+		for (int i=0; i<option_names.length; i++) {
+			OptionVO temp = new OptionVO();
+			temp.setName(option_names[i]);
+			temp.setOption_qty(option_qtys[i]);
+			temp.setPrice(option_prices[i]);
+			temp.setGoodsNo(goodsNo);
+			selectOptions.add(temp);
+		}
+		System.out.println("selectOptions"+selectOptions);
+		
+
+		sellerGoodsService.updateSellerGoods(sellerGoods);
+		for (OptionVO optionVO : selectOptions) {
+			sellerGoodsService.insertOptionForMod(optionVO);
+		}
+
+		ModelAndView mav = new ModelAndView("redirect:/seller/goods/sellerGoodsList.do");
+		return mav;
+	}
 
 //리스트 삭제
 	@Override

@@ -49,55 +49,10 @@ public class MypageControllerImpl implements MypageController {
 		int memberNo = member.getMemberNo();
 		String viewName = (String) request.getAttribute("viewName");
 		
-//		String category = request.getParameter("category");
-//		String _section = request.getParameter("section");
-//		String _pageNum = request.getParameter("pageNum");
-//		String order_search_type = request.getParameter("order_search_type");
-//		int pageNum;
-//		int section;
-//		if (_pageNum == null || _pageNum.length() <= 0) {
-//			pageNum = 1;
-//		} else {
-//			pageNum = Integer.parseInt(_pageNum);
-//		}
-//		if (_section == null || _section.length() <= 0) {
-//			section = 1;
-//		} else {
-//			section = Integer.parseInt(_section);
-//		}
-//		if (order_search_type !=null && order_search_type.length() < 1) {
-//			order_search_type = "all";
-//		}
-//		Map pagingMap = GeneralFileUploader.getParameterMap(request);
-//		pagingMap.put("category", category);
-//		pagingMap.put("section", section);
-//		pagingMap.put("order_search_type", order_search_type);
-//		pagingMap.put("start", ((section-1) * 10 + pageNum - 1) * 10);
-//	
-//		List<OrderVO> orderList = mypageService.selectOrderList(pagingMap);
 		List<OrderVO> orderList = mypageService.selectOrderByMemberNo(memberNo);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("orderList", orderList);
-//		mav.addAllObjects(pagingMap);
-//		
-//		List<Map> resultMap = mypageService.countOrderNums();
-//		long totalOrderNum = (long) resultMap.get(0).get("cnt");
-//		long searchOrderNum = -1;
-//		for (Map < String, Object> row : resultMap) {
-//			String cate = (String) row.get("category");
-//			long count = (long) row.get("cnt");
-//			System.out.println("category=" + cate + ", count=" + count);
-//			if (cate.equals(category)) {
-//				searchOrderNum = count;
-//			}
-//		}
-//		if (searchOrderNum < 0) {
-//			searchOrderNum = totalOrderNum;
-//		}
-//		
-//		mav.addObject("orderNumMap", resultMap);
-//		mav.addObject("totalOrderNum", totalOrderNum);
-//		mav.addObject("searchOrderNum", searchOrderNum);
+
 		System.out.println(mav);
 		return mav;
 	}
@@ -131,39 +86,47 @@ public class MypageControllerImpl implements MypageController {
 			return mav;
 		}
 
-		int memberNo = member.getMemberNo();
-		String viewName = (String) request.getAttribute("viewName");
+		
+		try {
+			int memberNo = member.getMemberNo();
+			String viewName = (String) request.getAttribute("viewName");
 
-		String[] goodsNos = request.getParameterValues("goodsNo");
-		String[] goodsQtys = request.getParameterValues("goodsQty");
-		String[] goodsInbun = request.getParameterValues("goodsInbun");
-		String[] optionNos = request.getParameterValues("optionNo");
-		String shippingFee = request.getParameter("shippingFee");
-		String payment_price = request.getParameter("payment_price");
-		String discount_price = request.getParameter("discount_price");
+			String[] goodsNos = request.getParameterValues("goodsNo");
+			String[] goodsQtys = request.getParameterValues("goodsQty");
+			String[] goodsInbun = request.getParameterValues("goodsInbun");
+			String[] optionNos = request.getParameterValues("optionNo");
+			String shippingFee = request.getParameter("shippingFee");
+			String payment_price = request.getParameter("payment_price");
+			String discount_price = request.getParameter("discount_price");
 
-		List<CouponVO> couponList = mypageService.selectCouponByMemberNo(memberNo);
+			List<CouponVO> couponList = mypageService.selectCouponByMemberNo(memberNo);
 
-		List<OrderVO> selectGoodsList = new ArrayList();
-		for (int i = 0; i < goodsNos.length; i++) {
-			OrderVO temp = new OrderVO();
-			temp.setGoodsNo(Integer.parseInt(goodsNos[i]));
-			temp.setGoods_qty(Integer.parseInt(goodsQtys[i]));
-			temp.setGoods_inbun(goodsInbun[i]);
-			temp.setOptionNo(Integer.parseInt(optionNos[i]));
-			temp.setShippingfee(Integer.parseInt(shippingFee));
-			temp.setPayment_price(Integer.parseInt(payment_price));
-			temp.setDiscount_price(Integer.parseInt(discount_price));
-			selectGoodsList.add(temp);
+			List<OrderVO> selectGoodsList = new ArrayList();
+			for (int i = 0; i < goodsNos.length; i++) {
+				OrderVO temp = new OrderVO();
+				temp.setGoodsNo(Integer.parseInt(goodsNos[i]));
+				temp.setGoods_qty(Integer.parseInt(goodsQtys[i]));
+				temp.setGoods_inbun(goodsInbun[i]);
+				temp.setOptionNo(Integer.parseInt(optionNos[i]));
+				temp.setShippingfee(Integer.parseInt(shippingFee));
+				temp.setPayment_price(Integer.parseInt(payment_price));
+				temp.setDiscount_price(Integer.parseInt(discount_price));
+				selectGoodsList.add(temp);
+			}
+
+			mav.setViewName(viewName);
+			mav.addObject("payment_price", payment_price);
+			mav.addObject("shippingFee", shippingFee);
+			mav.addObject("discount_price", discount_price);
+			mav.addObject("selectGoodsList", selectGoodsList);
+			mav.addObject("couponList", couponList);
+			session.setAttribute("selectGoodsList", selectGoodsList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String previousPage = request.getHeader("Referer");
+			mav = Alert.alertAndRedirect("주문 정보를 받아오지 못 했습니다.", previousPage);
 		}
-
-		mav.setViewName(viewName);
-		mav.addObject("payment_price", payment_price);
-		mav.addObject("shippingFee", shippingFee);
-		mav.addObject("discount_price", discount_price);
-		mav.addObject("selectGoodsList", selectGoodsList);
-		mav.addObject("couponList", couponList);
-		session.setAttribute("selectGoodsList", selectGoodsList);
+		
 		return mav;
 	}
 
@@ -175,7 +138,7 @@ public class MypageControllerImpl implements MypageController {
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
 		int memberNo = member.getMemberNo();
-		String viewName = (String) request.getAttribute("viewName");
+	
 
 		int orderNo = mypageService.selectNewOrderNo();
 		String orderer_name = request.getParameter("orderer_name");
@@ -380,21 +343,25 @@ public class MypageControllerImpl implements MypageController {
 		int memberNo = memberInfo.getMemberNo();
 		
 		String couponNo_ = request.getParameter("couponNo");
+		if(couponNo_.isEmpty()) {
+			mav = Alert.alertAndRedirect("쿠폰번호를 입력해주세요.", request.getContextPath() + "/mypage/couponSearch.do");
+			return mav;
+		}
 		int couponNo = Integer.parseInt(couponNo_);
 		System.out.println("couponNo = "+couponNo);
-		CouponVO result;
-		try {
-			result = mypageService.couponNum(couponNo);
-			System.out.println("result = " + result);
-			
-			
-		}catch(Exception e){
+		CouponVO couponVO = mypageService.couponNum(couponNo);
+		System.out.println("couponVO = " + couponVO);
+		if (couponVO == null) {
 			mav = Alert.alertAndRedirect("쿠폰이 존재하지 않습니다.", request.getContextPath() + "/mypage/couponSearch.do");
+			return mav;	
 		}
-		result = mypageService.couponNum(couponNo);
-		System.out.println("result = " + result);
-		result.setMemberNo(memberNo);
-		mypageService.couponInsert(result);
+		couponVO.setMemberNo(memberNo);
+		CouponVO couponNull = mypageService.couponNull(couponVO);
+		if (couponNull != null) {
+			mav = Alert.alertAndRedirect("이미 등록 되어있는 쿠폰입니다.", request.getContextPath() + "/mypage/couponSearch.do");
+			return mav;	
+		}
+		mypageService.couponInsert(couponVO);
 		
 		mav = Alert.alertAndRedirect("등록되었습니다.", request.getContextPath() + "/mypage/couponSearch.do");
 		return mav;
@@ -484,7 +451,7 @@ public class MypageControllerImpl implements MypageController {
 			memberVO.setBirth(null);
 		}
 		mypageService.updateMember(memberVO);
-		mav = Alert.alertAndRedirect("수정이 완료되었습니다.", request.getContextPath() + "/mypage/mypageMemberModForm.do");
+		mav = Alert.alertAndRedirect("수정이 완료되었습니다.", request.getContextPath() + "/mypage/mypageMemberMod.do");
 		return mav;
 	}
 
@@ -492,16 +459,19 @@ public class MypageControllerImpl implements MypageController {
 	@RequestMapping(value = "/mypage/mypageReviewList.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView mypageReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("여기는 mypageReview Controller");
-		ModelAndView mav = new ModelAndView();
+		// 리뷰를 들어가면 1.작성가능리뷰 2.작성한 리뷰 리스트들이 출력 됨.
 		HttpSession session = request.getSession();
 		MemberVO memberInfo = (MemberVO) session.getAttribute("memberInfo");
-		System.out.println("1");
 		int memberNo = memberInfo.getMemberNo();
-		System.out.println("2");
-		List<ReviewVO> reviewList = mypageService.reviewList(memberNo);
-		System.out.println("3");
+		// 1. 작성가능 리뷰 가져오기 (배송완료인 상품들)
+		List<OrderVO> reviewList = mypageService.reviewList(memberNo);
 		System.out.println("reviewList = " + reviewList);
+		// 2. 작성완료 리뷰 가져오기 (리뷰작성완료인 상품들)
+		List<OrderVO> writeReview = mypageService.writeReview(memberNo);
+		System.out.println("writeReview = " + writeReview);
+		ModelAndView mav = new ModelAndView();
 		mav.addObject("reviewList", reviewList);
+		mav.addObject("writeReview", writeReview);
 		mav.setViewName("/mypage/mypageReview");
 		return mav;
 	}
