@@ -14,14 +14,16 @@ public class CouponVO {
 	private Date creDate;
 	private int memberNo;
 	private String memberName;
+	private String couponCode;
 	
 	
-	public String getExpDate() {
-		return expDate;
+	public String getCouponCode() {
+		return couponCode;
 	}
-	public void setExpDate(String expDate) {
-		this.expDate = expDate;
+	public void setCouponCode(String couponCode) {
+		this.couponCode = couponCode;
 	}
+
 	public String getMemberName() {
 		return memberName;
 	}
@@ -58,19 +60,24 @@ public class CouponVO {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
-	
+	public String getExpDate() {
+		return expDate;
+	}
+	public void setExpDate(String expDate) {
+		this.expDate = expDate;
+	}
 	public Date getCreDate() {
 		return creDate;
 	}
 	public void setCreDate(Date creDate) {
 		this.creDate = creDate;
 	}
+	
 	@Override
 	public String toString() {
 		return "CouponVO [couponNo=" + couponNo + ", name=" + name + ", discount_price=" + discount_price
 				+ ", condition=" + condition + ", expDate=" + expDate + ", creDate=" + creDate + ", memberNo="
-				+ memberNo + ", memberName=" + memberName + "]";
+				+ memberNo + ", memberName=" + memberName + ", couponCode=" + couponCode + "]";
 	}
-	
 	
 }

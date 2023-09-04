@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.admin.community.dao.AdminCommunityDAO;
 import com.example.demo.vo.MostQnAVO;
 import com.example.demo.vo.NoticeVO;
+import com.example.demo.vo.OneQnAVO;
+import com.example.demo.vo.RecipeVO;
 
 @Service("adminCommunityService")
 public class AdminCommunityServiceImpl implements AdminCommunityService {
@@ -78,6 +80,23 @@ public class AdminCommunityServiceImpl implements AdminCommunityService {
 	@Override
 	public void deleteMostQnA(int qnaNo) {
 		adminCommunityDAO.deleteMostQnA(qnaNo);
+	}
+
+	@Override
+	public List<RecipeVO> selectRecipeListWithPagingMap(Map pagingMap) {
+		return adminCommunityDAO.selectRecipeListWithPagingMap(pagingMap);
+	}
+
+	@Override
+	public int selectTotalRecipeNum(Map pagingMap) {
+		
+		return adminCommunityDAO.selectTotalRecipeNum(pagingMap);
+	}
+	
+	@Override
+	public List<OneQnAVO> oneQnAList(){
+		List<OneQnAVO> oneQnAList = adminCommunityDAO.oneQnAList();
+		return oneQnAList;
 	}
 	
 	

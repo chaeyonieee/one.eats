@@ -9,12 +9,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.mypage.dao.MypageDAO;
 import com.example.demo.vo.CouponVO;
 import com.example.demo.vo.DeliveryAddressVO;
 import com.example.demo.vo.MemberVO;
 import com.example.demo.vo.OrderVO;
+import com.example.demo.vo.PointHistoryVO;
 import com.example.demo.vo.ReviewVO;
 
 @Service("mypageService")
@@ -22,6 +24,11 @@ public class MypageServiceImpl implements MypageService {
 	@Autowired
 	private MypageDAO mypageDAO;
 
+	@Override
+	public void deleteMember(MemberVO member) {
+		mypageDAO.deleteMember(member);
+	}
+	
 	@Override
 	public List<OrderVO> selectOrderList() throws DataAccessException {
 		return mypageDAO.selectOrderList();
@@ -69,6 +76,11 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
+	public List<Map> selectOrderBySearchType(Map<String, Object> map) {
+		return mypageDAO.selectOrderBySearchType(map);
+	}
+
+	@Override
 	public MemberVO listMyPage(String member_id) throws Exception {
 		System.out.println("listMyPageService");
 		return mypageDAO.selectMypageList(member_id);
@@ -101,10 +113,15 @@ public class MypageServiceImpl implements MypageService {
 		List<CouponVO> couponVO = mypageDAO.couponSearch(memberInfo);
 		return couponVO;
 	}
-
 	@Override
-	public CouponVO couponNum(int couponNo) {
-		CouponVO result = mypageDAO.couponNum(couponNo);
+	public List<PointHistoryVO> pointSearch(MemberVO memberInfo) throws DataAccessException{
+		List<PointHistoryVO> pointHistoryVO = mypageDAO.pointSearch(memberInfo);
+		return pointHistoryVO;
+	}
+	
+	@Override
+	public CouponVO couponNum(String couponCode) {
+		CouponVO result = mypageDAO.couponNum(couponCode);
 		return result;
 	}
 
@@ -117,6 +134,10 @@ public class MypageServiceImpl implements MypageService {
 	public List<DeliveryAddressVO> myAddress(int memberNo) throws DataAccessException {
 		List<DeliveryAddressVO> myAddressVO = mypageDAO.myAddress(memberNo);
 		return myAddressVO;
+	}
+	@Override
+	public void deleteAddress(int deliveryNo) {
+		mypageDAO.deleteAddress(deliveryNo);
 	}
 
 	// 민아 회원정보 수정2
@@ -131,14 +152,56 @@ public class MypageServiceImpl implements MypageService {
 		List<OrderVO> reviewList = mypageDAO.reviewList(memberNo);
 		return reviewList;
 	}
+
 	// 민아 리뷰2
-		@Override
-	public List<OrderVO> writeReview(int memberNo) throws DataAccessException{
-			List<OrderVO> writeReview = mypageDAO.writeReview(memberNo);
-			return writeReview;
+	@Override
+	public List<OrderVO> writeReview(int memberNo) throws DataAccessException {
+		List<OrderVO> writeReview = mypageDAO.writeReview(memberNo);
+		return writeReview;
+
+	}
+
+	@Override
+	public void insertTempOrderList(List<OrderVO> orderList) {
+		mypageDAO.insertTempOrderList(orderList);
+
+	}
+
+	@Override
+	public void updateTempOrderList(Map payInfoMap) {
+		mypageDAO.updateTempOrderList(payInfoMap);
 		
 	}
 
+	@Override
+	public void insertAddressWithMap(Map condMap) {
+		mypageDAO.insertAddressWithMap(condMap);
+	}
 
+	@Override
+	public void updateDeliveryAddressWithMap(Map condMap) {
+		mypageDAO.updateDeliveryAddressWithMap(condMap);
+	}
+
+	@Override
+	@Transactional
+	public void swapDeliveryAddress(Map condMap, DeliveryAddressVO targetDeliveryAddress) {
+		mypageDAO.updateDeliveryAddressWithMap(condMap);
+		mypageDAO.updateDeliveryAddress(targetDeliveryAddress);
+		mypageDAO.updateMemberAddressWithMap(condMap);
+	}
+	
+	@Override
+	public void updateMemberAddressWithMap(Map condMap) {
+		mypageDAO.updateMemberAddressWithMap(condMap);
+	}
+
+	@Override
+	public void deleteDeliveryAddressWithMap(Map condMap) {
+		mypageDAO.deleteDeliveryAddressWithMap(condMap);
+	}
+	
+	
+	
 
 }

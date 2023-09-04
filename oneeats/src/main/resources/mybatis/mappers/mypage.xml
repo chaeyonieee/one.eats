@@ -79,11 +79,13 @@
 		<result property="expDate" column="expDate" />
 		<result property="creDate" column="creDate" />
 		<result property="memberNo" column="memberNo" />
+		<result property="couponCode" column="couponCode" />
 	</resultMap>
 
 
 
 	<resultMap id="DeliveryResult" type="deliveryAddressVO">
+		<result property="deliveryNo" column="deliveryNo" />
 		<result property="receiver_name" column="receiver_name" />
 		<result property="receiver_phone" column="receiver_phone" />
 		<result property="zipCode" column="zipCode" />
@@ -106,6 +108,24 @@
 		<result property="delivery_status" column="delivery_status" />
 	</resultMap>
 
+	<resultMap id="PointHistoryResult" type="pointHistoryVO">
+		<result property="pointNo" column="pointNo" />
+		<result property="name" column="name" />
+		<result property="creDate" column="creDate" />
+		<result property="finishDate" column="finishDate" />
+		<result property="amount" column="amount" />
+		<result property="memberNo" column="memberNo" />
+	</resultMap>
+
+
+	<delete id="deleteMember" parameterType="MemberVO">
+    <![CDATA[
+      delete from member
+      where 
+      memberNo=#{memberNo} and id=#{id} 
+    ]]>
+	</delete>
+
 	<select id="selectOrderList" resultMap="OrderResult">
 		<![CDATA[
 			select orderplusgoods.*,orderGun.gun from (select t_order.*,goodsAndHotdealView.name as goodsName, 
@@ -116,8 +136,7 @@
 		]]>
 	</select>
 
-	<select id="selectOrderByMemberNo" resultMap="OrderResult"
-		parameterType="int">
+	<select id="selectOrderByMemberNo" resultMap="OrderResult" parameterType="int">
 		<![CDATA[
 			select orderplusgoods.*,orderGun.gun from (select t_order.*,goodsAndHotdealView.name as goodsName, 
 			goodsAndHotdealView.img1 as goodsImg from t_order inner join goodsAndHotdealView on t_order.goodsNo=goodsAndHotdealView.goodsNo WHERE t_order.memberNo=#{memberNo}) 
@@ -167,6 +186,42 @@
 		</foreach>
 	</insert>
 
+	<insert id="insertTempOrderList" parameterType="java.util.List">
+		insert into t_order (orderNo, orderer_name, orderer_phone,
+		receiver_name, receiver_address, receiver_phone, receiver_comment,
+		used_point, used_couponId, payment_price, discount_price, shippingfee,
+		point_price, total_price,
+		payment_type, goods_qty, goods_inbun,
+		memberNo, goodsNo, optionNo,delivery_status)
+
+		values
+
+		<foreach collection="list" item="item" separator=",">
+			(#{item.orderNo}, #{item.orderer_name}, #{item.orderer_phone},
+			#{item.receiver_name}, #{item.receiver_address},
+			#{item.receiver_phone}, #{item.receiver_comment},
+			#{item.used_point},
+			#{item.used_couponId}, #{item.payment_price},
+			#{item.discount_price},
+			#{item.shippingfee}, #{item.point_price},
+			#{item.total_price},
+			'결제중',#{item.goods_qty}, #{item.goods_inbun},
+			#{item.memberNo},
+			#{item.goodsNo}, #{item.optionNo},'결제중')
+		</foreach>
+	</insert>
+
+	<update id="updateTempOrderList" parameterType="java.util.Map">
+		update t_order
+		set
+		payment_type=#{payment_type}, total_price=#{total_price},
+		delivery_status='결제완료'
+		where memberNo=#{memberNo} and
+		orderNo=#{orderNo} and delivery_status='결제중'
+
+	</update>
+
+
 	<select id="selectNewOrderNo" resultType="int">
 		<![CDATA[
 			select ifnull(max(orderNo),0)+1 from t_order
@@ -174,7 +229,8 @@
 	</select>
 
 
-	<select id="selectSeqNoByOrderNo" resultType="int" parameterType="int">
+	<select id="selectSeqNoByOrderNo" resultType="int"
+		parameterType="int">
 		<![CDATA[
 			select order_seqNo from t_order where orderNo=#{orderNo};
 		]]>
@@ -187,6 +243,33 @@
 	     	where order_seqNo=#{order_seqNo}
 		]]>
 	</update>
+	
+	<select id="selectOrderBySearchType" resultMap="OrderResult" parameterType="hashMap">
+		<choose>
+			<when test="orderSearchType == 'all'">
+				select orderplusgoods.*,orderGun.gun from (select t_order.*,goodsAndHotdealView.name as goodsName, 
+				goodsAndHotdealView.img1 as goodsImg from t_order inner join goodsAndHotdealView on t_order.goodsNo=goodsAndHotdealView.goodsNo 
+				WHERE t_order.memberNo=#{memberNo}) as orderplusgoods inner join (select orderNo, count(*) as gun from t_order group by orderNo) 
+				as orderGun on orderplusgoods.orderNo=orderGun.orderNo order by orderplusgoods.orderNo
+			</when>
+			<when test="orderSearchType == '1month'">
+				select * from order_by_membertype where orderDate 
+				between DATE_SUB(NOW(), INTERVAL 1 MONTH) and NOW() and memberNo=#{memberNo}
+			</when>
+			<otherwise>
+				<choose>
+					<when test="orderSearchType == '3month'">
+						select * from order_by_membertype where orderDate 
+						between DATE_SUB(NOW(), INTERVAL 3 MONTH) and NOW() and memberNo=#{memberNo}
+					</when>
+					<when test="orderSearchType == '1year'">
+						select * from order_by_membertype where orderDate 
+						between DATE_SUB(NOW(), INTERVAL 1 YEAR) and NOW() and memberNo=#{memberNo}
+					</when>
+				</choose>
+			</otherwise>
+		</choose>
+	</select>
 
 	<update id="updateMemberInfo" parameterType="memberVO">
 		<![CDATA[
@@ -231,12 +314,12 @@
         
          select t_order.memberNo, t_order.goods_qty, t_order.deliveryDate, t_order.delivery_status, goods.name as goodsName, goods.goodsNo, goods.img1 as goodsImg 
          from t_order
-         inner join goods on t_order.memberNo=goods.memberNo 
+         inner join goods on t_order.goodsNo=goods.goodsNo 
          where t_order.delivery_status='배송완료' and t_order.memberNo=#{memberNo}
 		]]>
 	</select>
-	
-		<!-- 리뷰 2 -->
+
+	<!-- 리뷰 2 -->
 	<select id="writeReview" parameterType="int"
 		resultMap="OrderResult">
 	    <![CDATA[
@@ -249,7 +332,7 @@
 		]]>
 	</select>
 
-	<!-- 민아 쿠폰, 적립금 조회 -->
+	<!-- 민아 쿠폰 조회 -->
 	<select id="couponSearch" resultMap="CouponResult"
 		parameterType="memberVO">
 		<![CDATA[
@@ -262,13 +345,22 @@
 
 		]]>
 	</select>
+	<!-- 민아 적립금 조회 -->
+	<select id="pointSearch" resultMap="PointHistoryResult"
+		parameterType="memberVO">
+		<![CDATA[
+		    select * from point_history
+			where memberNo=#{memberNo}
+		]]>
+	</select>
 
 	<!-- 민아 쿠폰, 적립금 조회 -->
-	<select id="couponNum" resultType="couponVO" parameterType="int">
+	<select id="couponNum" resultType="couponVO"
+		parameterType="String">
 		<![CDATA[
-		    select couponNo, name, discount_price, expDate, creDate from coupon 
+		    select couponNo, name, discount_price, expDate, creDate, couponCode from coupon 
 			where 
-			couponNo=#{couponNo}
+			couponCode=#{couponCode}
 		]]>
 	</select>
 
@@ -297,18 +389,62 @@
 		   select * from deliveryaddress 
 		   where 
 		   memberNo=#{memberNo}
+		   order by deliveryNo
 
 		]]>
 	</select>
 
 	<delete id="deleteBookMark" parameterType="int">
+		<![CDATA[
+		delete from bookmark
+		where 
+		goodsNo=#{goodsNo}
+		]]>
+	</delete>
+
+	<delete id="deleteAddress" parameterType="int">
 <![CDATA[
-delete from bookmark
+delete from deliveryaddress
 where 
-goodsNo=#{goodsNo}
+deliveryNo=#{deliveryNo}
 ]]>
 	</delete>
 
 
-
+	<insert id="insertAddressWithMap" parameterType="java.util.Map">
+		insert into deliveryaddress (receiver_name,receiver_phone,zipCode,address,address_detail,memberNo)
+		 values (#{receiver_name},#{receiver_phone},#{zipCode},#{address},#{address_detail},#{memberNo})
+		
+	</insert>
+	
+	<update id="updateDeliveryAddressWithMap" parameterType="java.util.Map">
+		update deliveryaddress set
+		receiver_name=#{receiver_name},
+		receiver_phone=#{receiver_phone},
+		zipCode=#{zipCode},
+		address=#{address},
+		address_detail=#{address_detail}
+		where memberNo=#{memberNo} and deliveryNo=#{deliveryNo}
+	</update>
+	
+	<update id="updateDeliveryAddress" parameterType="deliveryAddressVO">
+		update deliveryaddress set
+		receiver_name=#{receiver_name},
+		receiver_phone=#{receiver_phone},
+		zipCode=#{zipCode},
+		address=#{address},
+		address_detail=#{address_detail}
+		where memberNo=#{memberNo} and deliveryNo=#{deliveryNo}
+	</update>
+	
+	<update id="updateMemberAddressWithMap" parameterType="java.util.Map">
+		update member set
+		zipCode=#{zipCode},
+		address=#{address},
+		address_detail=#{address_detail}
+		where memberNo=#{memberNo}
+	</update>
+	<delete id="deleteDeliveryAddressWithMap" parameterType="java.util.Map">
+		delete from deliveryaddress where memberNo=#{memberNo} and deliveryNo=#{deliveryNo}
+	</delete>
 </mapper>

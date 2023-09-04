@@ -16,11 +16,14 @@ import com.example.demo.vo.CouponVO;
 import com.example.demo.vo.DeliveryAddressVO;
 import com.example.demo.vo.MemberVO;
 import com.example.demo.vo.OrderVO;
+import com.example.demo.vo.PointHistoryVO;
 import com.example.demo.vo.ReviewVO;
 
 @Mapper
 @Repository("mypageDAO")
 public interface MypageDAO {
+	
+	public void deleteMember(MemberVO member);
 
 	public List<OrderVO> selectOrderList() throws DataAccessException;
 	
@@ -33,6 +36,8 @@ public interface MypageDAO {
 	public int[] selectSeqNoByOrderNo(int orderNo);
 
 	public void updateDeliveryStatusToCancel(int order_seqNo);
+	
+	public List<Map> selectOrderBySearchType(Map<String, Object> map);
 	
 	public List<CouponVO> selectCouponByMemberNo(int memberNo) throws DataAccessException;
 	
@@ -49,11 +54,13 @@ public interface MypageDAO {
 	
 	//민아 쿠폰
 	public List<CouponVO> couponSearch(MemberVO memberInfo) throws DataAccessException;
+	public List<PointHistoryVO> pointSearch(MemberVO memberInfo) throws DataAccessException;
 
 	public int selectNewOrderNo();
 
 	//민아 배송지관리 - 출력
 	public List<DeliveryAddressVO> myAddress(int memberNo) throws DataAccessException;
+	public void deleteAddress(int deliveryNo);
 	
 	//민아 회원정보 수정
 	public void updateMemberInfo(MemberVO memberVO) throws DataAccessException;
@@ -62,10 +69,24 @@ public interface MypageDAO {
 	
 	public List<OrderVO> writeReview(int memberNo) throws DataAccessException;
 
-	public CouponVO couponNum(int couponNo);
+	public CouponVO couponNum(String couponCode);
 	
 	public CouponVO couponNull(CouponVO result);
 	
 	public void couponInsert(CouponVO result);
+
+	public void insertTempOrderList(List<OrderVO> orderList);
+
+	public void updateTempOrderList(Map payInfoMap);
+
+	public void insertAddressWithMap(Map condMap);
+
+	public void updateDeliveryAddressWithMap(Map condMap);
+
+	public void updateDeliveryAddress(DeliveryAddressVO targetDeliveryAddress);
+
+	public void updateMemberAddressWithMap(Map condMap);
+
+	public void deleteDeliveryAddressWithMap(Map condMap);
 	
 }

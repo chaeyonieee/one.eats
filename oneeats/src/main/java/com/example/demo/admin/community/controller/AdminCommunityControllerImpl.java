@@ -23,6 +23,8 @@ import com.example.demo.common.functions.GeneralFunctions;
 import com.example.demo.vo.MemberVO;
 import com.example.demo.vo.MostQnAVO;
 import com.example.demo.vo.NoticeVO;
+import com.example.demo.vo.OneQnAVO;
+import com.example.demo.vo.RecipeVO;
 
 @Controller("adminCommunityController")
 @RequestMapping("/admin/community")
@@ -37,6 +39,20 @@ public class AdminCommunityControllerImpl implements AdminCommunityController {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
+		return mav;
+	}
+
+
+	// 민아 관리자 1:1문의 리스트
+	@RequestMapping("/oneQnA/adminOneQnAList.do")
+	public ModelAndView oneQnADetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("여기는 community oneQnADetail Controller");
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		List<OneQnAVO> oneQnAList = adminCommunityService.oneQnAList();
+		System.out.println("oneQnAList= " + oneQnAList);
+		mav.addObject("oneQnAList", oneQnAList);
+		mav.setViewName(viewName);
 		return mav;
 	}
 
@@ -193,7 +209,7 @@ public class AdminCommunityControllerImpl implements AdminCommunityController {
 		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 		Map condMap = GeneralFileUploader.getParameterMap(request);
-		
+
 		// 설명문의 줄바꿈 처리
 		String content = (String) condMap.get("content");
 		System.out.println(content);
@@ -224,6 +240,47 @@ public class AdminCommunityControllerImpl implements AdminCommunityController {
 			mav = Alert.alertAndRedirect("삭제하지 못 했습니다.", previousPage);
 		}
 
+		return mav;
+	}
+	
+	@RequestMapping("/recipe/adminRecipeList.do")
+	public ModelAndView adminRecipeList(HttpServletRequest request) throws IOException {
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		Map pagingMap = GeneralFileUploader.getParameterMap(request);
+		
+		String category = request.getParameter("category");
+		String _section = request.getParameter("section");
+		String _pageNum = request.getParameter("pageNum");
+		String recipe_search_type = request.getParameter("recipe_search_type");
+		int pageNum;
+		int section;
+		if (_pageNum == null || _pageNum.trim().length() < 1) {
+			pageNum = 1;
+		} else {
+			pageNum = Integer.parseInt(_pageNum);
+		}
+		if (_section == null || _section.trim().length() < 1) {
+			section = 1;
+		} else {
+			section = Integer.parseInt(_section);
+		}
+		if (recipe_search_type != null && recipe_search_type.length() < 1) {
+			recipe_search_type = "all";
+		}
+		
+		pagingMap.put("category", category);
+		pagingMap.put("section", section);
+		pagingMap.put("pageNum", pageNum);
+		pagingMap.put("recipe_search_type", recipe_search_type);
+		pagingMap.put("start", ((section - 1) * 10 + pageNum - 1) * 10);
+		List<RecipeVO> recipeList= adminCommunityService.selectRecipeListWithPagingMap(pagingMap);
+		mav.addObject("recipeList",recipeList);
+		
+		int totalRecipeNum = adminCommunityService.selectTotalRecipeNum(pagingMap);
+		mav.addObject("totalRecipeNum",totalRecipeNum);
+		mav.addAllObjects(pagingMap);
 		return mav;
 	}
 }
