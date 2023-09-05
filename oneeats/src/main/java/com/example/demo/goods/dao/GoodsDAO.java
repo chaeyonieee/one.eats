@@ -15,6 +15,7 @@ import com.example.demo.vo.CartVO;
 import com.example.demo.vo.GoodsVO;
 import com.example.demo.vo.HotDealVO;
 import com.example.demo.vo.OptionVO;
+import com.example.demo.vo.ReviewVO;
 
 @Mapper
 @Repository("goodsDAO")
@@ -44,6 +45,8 @@ public interface GoodsDAO {
 	public int isExistBookmark(BookmarkVO bookmarkVO);
 
 	public List<GoodsVO> selectGoodsListWithSearchFilter(Map searchMap);
+	
+	public List<HotDealVO> selectHotDealListWithSearchFilter(Map searchMap);
 
 	public int selectGoodsTotalNumWithSearchFilter(Map searchMap);
 
@@ -51,6 +54,17 @@ public interface GoodsDAO {
 
 	public int selectGoodsTotalNumWithPagingMap(Map pagingMap);
 
+	public List<ReviewVO> selectNewReviewsByGoodsNo(int goodsNo);
+
+	public List<ReviewVO> selectReviewsWithPagingMap(Map pagingMap);
+
+	public int selectMaxPrice(Map pagingMap);
+
+	public int selectMaxPriceWithSearchFilter(Map searchMap);
+
+	public List<HotDealVO> selectHotDealListWithPagingMap(Map pagingMap);
+
+	public int selectHotDealTotalNumWithPagingMap(Map pagingMap);
 }
 	
 

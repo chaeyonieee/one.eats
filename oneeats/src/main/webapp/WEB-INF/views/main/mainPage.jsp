@@ -172,7 +172,7 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
                 ><br />
 
                 <a
-                  href=${contextPath}/goods/goodsList.do?못난이"
+                  href="${contextPath}/goods/goodsList.do?category=motnan"
                   class="primary-btn"
                   style="margin-top: 12px"
                   >바로 가기</a
@@ -203,7 +203,7 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
             >
               <span style="font-size: 20px; color: white">밀키트</span><br />
               <a
-                href="${contextPath}/goods/goodsList.do?category=밀키트"
+                href="${contextPath}/goods/goodsList.do?category=mealkit"
                 class="primary-btn"
                 style="margin-top: 12px"
                 >바로 가기</a
