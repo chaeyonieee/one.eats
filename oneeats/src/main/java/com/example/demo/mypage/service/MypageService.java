@@ -33,7 +33,9 @@ public interface MypageService {
 
 	public void updateDeliveryStatusToCancel(int order_seqNo);
 	
-	public List<Map> selectOrderBySearchType(Map<String, Object> map);
+	public List<OrderVO> selectOrderByMemberNo(Map pagingMap);
+
+	public int selectCountOrderNum(Map<String, Object> map);
 	
 	public MemberVO listMyPage(String member_id) throws Exception;
 	
@@ -59,9 +61,9 @@ public interface MypageService {
 	
 	public void updateMember(MemberVO memberVO) throws DataAccessException;
 	
-	public List<OrderVO> reviewList(int memberNo) throws DataAccessException;
+	public List<OrderVO> selectAvailableReviewList(int memberNo) throws DataAccessException;
 	
-	public List<OrderVO> writeReview(int memberNo) throws DataAccessException;
+	public List<OrderVO> selectDoneReviewList(int memberNo) throws DataAccessException;
 	
 	public CouponVO couponNum(String couponCode);
 	
@@ -92,5 +94,18 @@ public interface MypageService {
 	public String selectTossApiByOrderNo(int orderNo);
 
 	public boolean isSNSMember(MemberVO memberInfo);
+
+	public int selectTotalAvailableReviewsNum(int memberNo);
+
+	public int selectTotalDoneReviewsNum(int memberNo);
+
+	public List<OrderVO> selectDoneReviewListWithPagingMap(Map pagingMap);
+
+	public List<OrderVO> selectAvailableReviewListWithPagingMap(Map pagingMap);
+
+	public Map selectCouponByCouponNoAndMemberNo(Map condMap);
+
+	
+	public List<PointHistoryVO> memberPoint (MemberVO memberInfo);
 	
 }

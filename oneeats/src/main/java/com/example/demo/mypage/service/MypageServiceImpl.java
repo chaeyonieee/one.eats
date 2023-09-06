@@ -42,6 +42,16 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
+	public List<OrderVO> selectOrderByMemberNo(Map pagingMap) {
+		return mypageDAO.selectOrderByMemberNo(pagingMap);
+	}
+
+	@Override
+	public int selectCountOrderNum(Map<String, Object> map) {
+		return mypageDAO.selectCountOrderNum(map);
+	}
+
+	@Override
 	public List<OrderVO> selectOrderByOrderNo(int orderNo) throws Exception {
 		return mypageDAO.selectOrderByOrderNo(orderNo);
 	}
@@ -75,11 +85,6 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public void updateDeliveryStatusToCancel(int order_seqNo) {
 		mypageDAO.updateDeliveryStatusToCancel(order_seqNo);
-	}
-
-	@Override
-	public List<Map> selectOrderBySearchType(Map<String, Object> map) {
-		return mypageDAO.selectOrderBySearchType(map);
 	}
 
 	@Override
@@ -148,16 +153,16 @@ public class MypageServiceImpl implements MypageService {
 
 	// 민아 리뷰1
 	@Override
-	public List<OrderVO> reviewList(int memberNo) throws DataAccessException {
-		List<OrderVO> reviewList = mypageDAO.reviewList(memberNo);
+	public List<OrderVO> selectAvailableReviewList(int memberNo) throws DataAccessException {
+		List<OrderVO> reviewList = mypageDAO.selectAvailableReviewList(memberNo);
 		return reviewList;
 	}
 
 	// 민아 리뷰2
 		@Override
-		public List<OrderVO> writeReview(int memberNo) throws DataAccessException {
-			List<OrderVO> writeReview = mypageDAO.writeReview(memberNo);
-			return writeReview;
+		public List<OrderVO> selectDoneReviewList(int memberNo) throws DataAccessException {
+			List<OrderVO> doneReviewList = mypageDAO.selectDoneReviewList(memberNo);
+			return doneReviewList;
 
 		}
 
@@ -172,10 +177,16 @@ public class MypageServiceImpl implements MypageService {
 	public void updateTempOrderList(Map payInfoMap) throws Exception{
 		mypageDAO.updateTempOrderList(payInfoMap);
 		int used_point = (int) payInfoMap.get("used_point");
-		if (used_point >0) {
+		if (used_point > 0) {
 			mypageDAO.insertPointHistory(payInfoMap);
 			payInfoMap.put("point", -used_point);
 			mypageDAO.updateMemberPoint(payInfoMap);
+		}
+		int used_couponId = Integer.parseInt(payInfoMap.get("used_couponId").toString());
+		System.out.println("used_couponId in update temp order list: "+used_couponId);
+		System.out.println("payInfoMap" +payInfoMap);
+		if (used_couponId>0) {
+			mypageDAO.updateMemberCouponUsed(payInfoMap);
 		}
 		mypageDAO.insertTossApi(payInfoMap);
 		
@@ -231,15 +242,6 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	
-	/*
-	 * @Override public List<CouponVO> couponSearch(MemberVO memberInfo) throws
-	 * DataAccessException { List<CouponVO> couponVO =
-	 * mypageDAO.couponSearch(memberInfo); return couponVO; }
-	 * 
-	 * @Override public List<PointHistoryVO> pointSearch(MemberVO memberInfo) throws
-	 * DataAccessException { List<PointHistoryVO> pointHistoryVO =
-	 * mypageDAO.pointSearch(memberInfo); return pointHistoryVO; }
-	 */
 
 	@Override
 	public List<BookmarkVO> selectBookListWithPagingMap(Map pagingMap) {
@@ -263,7 +265,37 @@ public class MypageServiceImpl implements MypageService {
 		int num = mypageDAO.selectCouponListTotalNum(memberNo);
 		return num;
 	}
-	
-	
 
+	@Override
+	public int selectTotalAvailableReviewsNum(int memberNo) {
+		
+		return mypageDAO.selectTotalAvailableReviewsNum(memberNo);
+	}
+
+	@Override
+	public int selectTotalDoneReviewsNum(int memberNo) {
+		return mypageDAO.selectTotalDoneReviewsNum(memberNo);
+	}
+
+	@Override
+	public List<OrderVO> selectDoneReviewListWithPagingMap(Map pagingMap) {
+		return mypageDAO.selectDoneReviewListWithPagingMap(pagingMap);
+	}
+
+	@Override
+	public List<OrderVO> selectAvailableReviewListWithPagingMap(Map pagingMap) {
+		return mypageDAO.selectAvailableReviewListWithPagingMap(pagingMap);
+	}
+	
+	@Override
+	public List<PointHistoryVO> memberPoint (MemberVO memberInfo) {
+		List<PointHistoryVO> memberPoint = mypageDAO.memberPoint(memberInfo);
+		return memberPoint;
+	}
+
+	@Override
+	public Map selectCouponByCouponNoAndMemberNo(Map condMap) {
+		return mypageDAO.selectCouponByCouponNoAndMemberNo(condMap);
+	}
+	
 }

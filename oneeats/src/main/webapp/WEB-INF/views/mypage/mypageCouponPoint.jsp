@@ -76,9 +76,6 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
           </tr>
           </c:forEach>
         </table>
-        <br />
-        <br />
-        <br />
         <div>
           <ul class="ul-li">
             <c:if test="${section>1}">
@@ -98,7 +95,7 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
             </c:if>
             <c:set
               var="end"
-              value="${Math.ceil((totalCouponListNum - (section-1)*100) div 10)}"
+              value="${Math.ceil((totalCouponListNum - (section-1)*30) div 3)}"
             />
             <c:if test="${end>10}">
               <c:set var="end" value="10" />
@@ -112,7 +109,7 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
                 >
               </li>
             </c:forEach>
-            <c:if test="${section*100 < totalCouponListNum}">
+            <c:if test="${section*30 < totalCouponListNum}">
               <li class="li-btn">
                 <a
                   href="${contextPath}/mypage/couponSearch.do?section=${section+1}&pageNum=1"
@@ -133,18 +130,24 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
     </section>
         <br />
         <br />
+<br>
         <section>
           <form>
         <div style="width:750px; height: 80px; text-align: center;">
           <div class ="pointd textsize-1"> 
-            <div style="margin-top: 20px;">
-            현재 적립금<br>0원
+            <div style="margin-top: 20px;" class ="textbold">
+            현재 적립금<br>
+            <c:set var = "total" value = "0" />
+        <c:forEach var="point" items="${pointList}" varStatus="status">     
+        <tr>
+        <td>${result.amount}<td>
+        </tr>
+        <c:set var= "total" value="${total + point.amount}"/>
+        </c:forEach>
+        <c:out value="${total}"/>원
            </div>
           </div>
-          <div class ="pointd textsize-1">
-            <div style="margin-top: 20px;">
-            소멸예정 적립금<br>0원</div></div>
-        </div>
+         </div>
         <br>
         <table class="coupontd">
           
@@ -166,9 +169,7 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
         </c:forEach>
        
         </table>
-        <br />
-        <br />
-        <br />
+
         <div>
           <ul class="ul-li">
             <c:if test="${section1>1}">
@@ -188,7 +189,7 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
             </c:if>
             <c:set
               var="end"
-              value="${Math.ceil((totalPointListNum - (section1-1)*100) div 10)}"
+              value="${Math.ceil((totalPointListNum - (section1-1)*30) div 3)}"
             />
             <c:if test="${end>10}">
               <c:set var="end" value="10" />
@@ -201,7 +202,7 @@ pageEncoding="UTF-8" isELIgnored="false"%> <%@ taglib prefix ="fmt" uri
                   >${((section1-1)*10)+i}</a>
               </li>
             </c:forEach>
-            <c:if test="${section*100<totalPointListNum}">
+            <c:if test="${section1*30<totalPointListNum}">
               <li class="li-btn">
                 <a
                   href="${contextPath}/mypage/couponSearch.do?section1=${section1+1}&pageNum1=1"

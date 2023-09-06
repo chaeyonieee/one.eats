@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.vo.IngredientVO;
+import com.example.demo.vo.MemberVO;
 import com.example.demo.vo.MostQnAVO;
 import com.example.demo.vo.NoticeVO;
 import com.example.demo.vo.OneQnAVO;
@@ -15,6 +16,8 @@ import com.example.demo.vo.RecipeVO;
 @Mapper
 @Repository("communityDAO")
 public interface CommunityDAO {
+	
+	public MemberVO selectMemberByMemberNo(int memberNo);
 
 	public List<RecipeVO> selectRecipeList(Map pagingMap);
 	
@@ -62,7 +65,7 @@ public interface CommunityDAO {
 
 	public int selectMostQnAListTotalNumWithCategory(String category);
 	
-	public int selectNoticeListTotalNumWithCategory(String category);
+	public int selectNoticeListTotalNumWithCategory(Map pagingMap);
 	
 	public int selectOneQnAListTotalNumWithCategory();
 	
@@ -73,4 +76,6 @@ public interface CommunityDAO {
 	public List<OneQnAVO> replyList(int qnaNo);
 
 	public int selectOneQnAListTotalNumWithPagingMap(Map pagingMap);
+
+	public void updateQnAStatusDone(int parentNo);
 }

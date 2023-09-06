@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.common.alert.Alert;
 import com.example.demo.common.api.toss.dto.TossDTO;
 import com.example.demo.common.file.GeneralFileUploader;
+import com.example.demo.common.functions.GeneralFunctions;
 import com.example.demo.mypage.service.MypageService;
 import com.example.demo.vo.BookmarkVO;
 import com.example.demo.vo.CouponVO;
@@ -64,42 +65,53 @@ public class MypageControllerImpl implements MypageController {
 	public ModelAndView orderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("여기는 orderList");
 		request.setCharacterEncoding("utf-8");
-		response.setContentType("html/text;charset=utf-8");
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
 		int memberNo = member.getMemberNo();
 		String viewName = (String) request.getAttribute("viewName");
-
-		List<OrderVO> orderList = mypageService.selectOrderByMemberNo(memberNo);
+		System.out.println("memberNo="+memberNo);
+		
+		String _section = request.getParameter("section");
+		String _pageNum = request.getParameter("pageNum");
+		String order_search_type = request.getParameter("order_search_type");
+		int pageNum;
+		int section;
+		if (_pageNum == null || _pageNum.length() <= 0) {
+			pageNum = 1;
+		} else {
+			pageNum = Integer.parseInt(_pageNum);
+		}
+		if (_section == null || _section.length() <= 0) {
+			section = 1;
+		} else {
+			section = Integer.parseInt(_section);
+		}
+		if (order_search_type == null || order_search_type.length() <= 0) {
+			order_search_type = "all";
+		}
+		Map pagingMap = GeneralFileUploader.getParameterMap(request);
+		pagingMap.put("section", section);
+		pagingMap.put("pageNum", pageNum);
+		pagingMap.put("order_search_type", order_search_type);
+		pagingMap.put("start", ((section - 1) * 10 + pageNum - 1) * 6);
+		pagingMap.put("memberNo", memberNo);
+		
+		List<OrderVO> orderList = mypageService.selectOrderByMemberNo(pagingMap);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("order_search_type", order_search_type);
+		map.put("memberNo", memberNo);
+		
+		int totalOrderNum = mypageService.selectCountOrderNum(map);
 		System.out.println("orderList=" + orderList);
+		System.out.println("totalOrderNum="+totalOrderNum);
 
 		ModelAndView mav = new ModelAndView(viewName);
+		mav.addAllObjects(pagingMap);
+		mav.addObject("order_search_type", order_search_type);
 		mav.addObject("orderList", orderList);
+		mav.addObject("totalOrderNum", totalOrderNum);
 		System.out.println(mav);
-		return mav;
-	}
-
-	@RequestMapping(value = "/mypage/orderSearch.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView orderSearch(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("여기는 orderSearch");
-		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
-		int memberNo = member.getMemberNo();
-		String viewName = (String) request.getAttribute("viewName");
-		String orderSearchType = request.getParameter("orderSearchType");
-		System.out.println("orderSearchType=" + orderSearchType);
-
-		Map<String, Object> map = new HashMap<>();
-		map.put("orderSearchType", orderSearchType);
-		map.put("memberNo", memberNo);
-		System.out.println("map=" + map);
-
-		List<Map> orderSearch = mypageService.selectOrderBySearchType(map);
-		System.out.println("orderSearch=" + orderSearch);
-		request.setAttribute("orderList", orderSearch);
-
-		ModelAndView mav = new ModelAndView("/mypage/orderList");
 		return mav;
 	}
 
@@ -196,17 +208,17 @@ public class MypageControllerImpl implements MypageController {
 			payInfoMap.put("memberNo", memberNo);
 			payInfoMap.put("orderNo", orderNo);
 			OrderVO tempOrder = mypageService.selectTempOrder(payInfoMap);
-			
+
 			int used_point = tempOrder.getUsed_point();
-			payInfoMap.put("used_point", used_point);
+			int used_couponId = tempOrder.getUsed_couponId();
 			
+			payInfoMap.put("used_point", -used_point);
+			payInfoMap.put("used_couponId", used_couponId);
 			payInfoMap.put("payment_type", payment_type);
 			payInfoMap.put("total_price", totalAmount);
 			
-			
-
 			mypageService.updateTempOrderList(payInfoMap);
-			
+
 			mav = new ModelAndView("redirect:/mypage/orderList.do");
 			session.removeAttribute("cartList");
 			session.removeAttribute("selectGoodsList");
@@ -236,21 +248,19 @@ public class MypageControllerImpl implements MypageController {
 		mav.addObject("order", orderVO);
 		session.setAttribute("orderCancel", orderCancel);
 
-		
 		String order_tossData = mypageService.selectTossApiByOrderNo(orderNo);
 		JSONParser parser = new JSONParser();
 		String paymentKey = "";
 		try {
-		    JSONObject tossJsonData = (JSONObject) parser.parse(order_tossData);
-		    TossDTO tossInfo = new TossDTO(tossJsonData);
-		    paymentKey = tossInfo.getPaymentKey();
-		    mav.addObject("paymentKey", paymentKey);
-		    
+			JSONObject tossJsonData = (JSONObject) parser.parse(order_tossData);
+			TossDTO tossInfo = new TossDTO(tossJsonData);
+			paymentKey = tossInfo.getPaymentKey();
+			mav.addObject("paymentKey", paymentKey);
+
 		} catch (ParseException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
-		
-		
+
 		return mav;
 	}
 
@@ -259,12 +269,12 @@ public class MypageControllerImpl implements MypageController {
 		System.out.println("여기는 orderCancelResult");
 		request.setCharacterEncoding("utf-8");
 		int orderNo = (Integer.parseInt(request.getParameter("orderNo")));
-		
+
 		int[] order_seqNos = mypageService.selectSeqNoByOrderNo(orderNo);
 		for (int order_seqNo : order_seqNos) {
 			mypageService.updateDeliveryStatusToCancel(order_seqNo);
 		}
-		
+
 		ModelAndView mav = new ModelAndView("redirect:/mypage/orderList.do");
 		return mav;
 	}
@@ -330,11 +340,15 @@ public class MypageControllerImpl implements MypageController {
 		response.setContentType("html/text;charset=utf-8");
 		String viewName = (String) request.getAttribute("viewName");
 
+		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
 		MemberVO memberInfo = (MemberVO) session.getAttribute("memberInfo");
+		if (memberInfo == null || memberInfo.getId().trim().length() < 1) {
+			mav = Alert.alertAndRedirect("로그인이 필요한 페이지입니다.", request.getContextPath() + "/member/loginForm.do");
+			return mav;
+		}
 		int memberNo = memberInfo.getMemberNo();
 		System.out.println("memberInfo = " + memberInfo);
-		ModelAndView mav = new ModelAndView();
 		request.setCharacterEncoding("utf-8");
 		Map pagingMap = GeneralFileUploader.getParameterMap(request);
 		String pageNum = (String) pagingMap.get("pageNum");
@@ -396,8 +410,8 @@ public class MypageControllerImpl implements MypageController {
 		Map pagingMap1 = GeneralFileUploader.getParameterMap(request);
 		String pageNum = (String) pagingMap.get("pageNum");
 		String section = (String) pagingMap.get("section");
-		String pageNum1 = (String) pagingMap.get("pageNum1");
-		String section1 = (String) pagingMap.get("section1");
+		String pageNum1 = (String) pagingMap1.get("pageNum1");
+		String section1 = (String) pagingMap1.get("section1");
 		if (pageNum == null || pageNum.trim().length() < 1) {
 			pageNum = "1";
 			pagingMap.put("pageNum", pageNum);
@@ -408,18 +422,20 @@ public class MypageControllerImpl implements MypageController {
 		}
 		if (pageNum1 == null || pageNum1.trim().length() < 1) {
 			pageNum1 = "1";
-			pagingMap.put("pageNum1", pageNum1);
+			pagingMap1.put("pageNum1", pageNum1);
 		}
 		if (section1 == null || section1.trim().length() < 1) {
 			section1 = "1";
-			pagingMap.put("section1", section1);
+			pagingMap1.put("section1", section1);
 		}
 
 		try {
-			int start = ((Integer.parseInt(section) - 1) + Integer.parseInt(pageNum) - 1) * 10;
+			int start = ((Integer.parseInt(section) - 1)*10 + Integer.parseInt(pageNum) - 1) * 3;
+			int start1 = ((Integer.parseInt(section1) - 1)*10 + Integer.parseInt(pageNum1) - 1) * 3;
 			pagingMap.put("start", start);
 			pagingMap.put("memberNo", memberNo);
-			pagingMap1.put("start", start);
+			
+			pagingMap1.put("start1", start1);
 			pagingMap1.put("memberNo", memberNo);
 			// List<CouponVO> couponDetail = mypageService.couponSearch(memberInfo); 쿠폰List
 			List<CouponVO> couponDetail = mypageService.selectCouponListWithPagingMap(pagingMap);
@@ -427,13 +443,17 @@ public class MypageControllerImpl implements MypageController {
 			int totalCouponListNum = mypageService.selectCouponListTotalNum(memberNo);
 
 			// List<PointHistoryVO> pointDetail = mypageService.pointSearch(memberInfo); 적립금
-			// List
 			List<PointHistoryVO> pointDetail = mypageService.selectPointListWithPagingMap(pagingMap1);
 			int totalPointListNum = mypageService.selectPointListTotalNum(memberNo);
 			System.out.println("pointDetail = " + pointDetail);
-
+			List<PointHistoryVO> pointList = mypageService.memberPoint(memberInfo); // 회원이 가지고 있는 총 적립금
+			System.out.println("pointList = " + pointList);
+			
+			System.out.println("pagingMap = " +pagingMap );
+			System.out.println("pagingMap1 = " +pagingMap1 );
 			mav.addAllObjects(pagingMap);
 			mav.addAllObjects(pagingMap1);
+			mav.addObject("pointList",pointList);
 			mav.addObject("couponDetail", couponDetail);
 			mav.addObject("pointDetail", pointDetail);
 			mav.addObject("totalCouponListNum", totalCouponListNum);
@@ -694,6 +714,7 @@ public class MypageControllerImpl implements MypageController {
 		if (birth == null || birth.trim().length() < 1) {
 			memberVO.setBirth(null);
 		}
+		System.out.println("memberVO = " + memberVO);
 		mypageService.updateMember(memberVO);
 		mav = Alert.alertAndRedirect("수정이 완료되었습니다.", request.getContextPath() + "/mypage/mypageMemberMod.do");
 		return mav;
@@ -702,21 +723,26 @@ public class MypageControllerImpl implements MypageController {
 	// 민아 리뷰
 	@RequestMapping(value = "/mypage/mypageReviewList.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView mypageReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("여기는 mypageReview Controller");
-		// 리뷰를 들어가면 1.작성가능리뷰 2.작성한 리뷰 리스트들이 출력 됨.
+		Map pagingMap = GeneralFunctions.getPagingMap(request,5);
+		System.out.println(pagingMap);
 		HttpSession session = request.getSession();
 		MemberVO memberInfo = (MemberVO) session.getAttribute("memberInfo");
 		int memberNo = memberInfo.getMemberNo();
 		// 1. 작성가능 리뷰 가져오기 (배송완료인 상품들)
-		List<OrderVO> reviewList = mypageService.reviewList(memberNo);
-		System.out.println("reviewList = " + reviewList);
+		List<OrderVO> availableReviewList = mypageService.selectAvailableReviewList(memberNo);
+		int totalAvailableReviewsNum = mypageService.selectTotalAvailableReviewsNum(memberNo);
+
 		// 2. 작성완료 리뷰 가져오기 (리뷰작성완료인 상품들)
-		List<OrderVO> writeReview = mypageService.writeReview(memberNo);
-		System.out.println("writeReview = " + writeReview);
+		List<OrderVO> doneReviewList = mypageService.selectDoneReviewList(memberNo);
+		int totalDoneReviewsNum = mypageService.selectTotalDoneReviewsNum(memberNo);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("reviewList", reviewList);
-		mav.addObject("writeReview", writeReview);
+		mav.addObject("availableReviewList", availableReviewList);
+		mav.addObject("doneReviewList", doneReviewList);
+		mav.addObject("totalAvailableReviewsNum", totalAvailableReviewsNum);
+		mav.addObject("totalDoneReviewsNum", totalDoneReviewsNum);
 		mav.setViewName("/mypage/mypageReview");
+		mav.addAllObjects(pagingMap);
+		System.out.println(mav);
 		return mav;
 	}
 
@@ -741,10 +767,14 @@ public class MypageControllerImpl implements MypageController {
 			String used_couponId = request.getParameter("used_couponId");
 			String point_price = request.getParameter("point_price");
 			String total_price = request.getParameter("total_price");
+			String discount_price = request.getParameter("discount_price");
+			if (receiver_comment.equals("direct")) {
+				receiver_comment = request.getParameter("receiver_comment_direct");
+			}
 
 			List<OrderVO> selectGoodsList = (List<OrderVO>) session.getAttribute("selectGoodsList");
 			List<OrderVO> orderList = new ArrayList();
-			System.out.println("selectGoodsList" + selectGoodsList);
+			
 			for (int i = 0; i < selectGoodsList.size(); i++) {
 				OrderVO temp = selectGoodsList.get(i);
 				temp.setOrderNo(orderNo);
@@ -758,10 +788,11 @@ public class MypageControllerImpl implements MypageController {
 				temp.setUsed_couponId(Integer.parseInt(used_couponId));
 				temp.setPoint_price(Integer.parseInt(point_price));
 				temp.setTotal_price(Integer.parseInt(total_price));
+				temp.setDiscount_price(Integer.parseInt(discount_price));
 				temp.setMemberNo(memberNo);
-
 				orderList.add(temp);
 			}
+			
 			// 일단 데이터베이스에 저장해뒀다가 결제가 완료되면 다시 끌고 옴
 			mypageService.insertTempOrderList(orderList);
 			session.setAttribute("tempOrderNo", orderNo);
@@ -775,4 +806,130 @@ public class MypageControllerImpl implements MypageController {
 
 	}
 
+	@ResponseBody
+	@PostMapping("/mypage/doneReviews.do")
+	public String getDoneReviews(HttpServletRequest request) throws Exception {
+		String result = "";
+		Map pagingMap = GeneralFunctions.getPagingMap(request,5);
+		List<OrderVO> doneReviewList = mypageService.selectDoneReviewListWithPagingMap(pagingMap);
+		
+		int memberNo = Integer.parseInt(pagingMap.get("memberNo").toString());
+		int section = Integer.parseInt(pagingMap.get("section").toString());
+		int totalDoneReviewsNum = mypageService.selectTotalDoneReviewsNum(memberNo);
+		int numForPage = Integer.parseInt(pagingMap.get("numForPage").toString());
+		for (int i = 0; i < doneReviewList.size(); i++) {
+			OrderVO temp = doneReviewList.get(i);
+
+			result += "<div\r\n" + "            class=\"row\"\r\n" + "            onclick=\"location.href='"
+					+ request.getContextPath() + "/goods/goodsDetail.do?goodsNo=" + temp.getGoodsNo() + "'\"\r\n"
+					+ "          >\r\n" + "            <div class=\"col-md-3\">\r\n" + "              <img\r\n"
+					+ "                src=\"" + request.getContextPath() + "/download.do?imageFileName="
+					+ temp.getGoodsImg() + "&path=goodsNo" + temp.getGoodsNo() + "\"\r\n" + "              />\r\n"
+					+ "            </div>\r\n" + "            <div class=\"col-md textsize-2 textbold\">\r\n"
+					+ "              " + temp.getGoodsName() + " " + temp.getGoods_qty() + "개 <br />\r\n"
+					+ "              " ;
+					
+			if (temp.getDeliveryDate()!=null && temp.getDeliveryDate().toString().trim() != "null") {
+				result 
+				+= temp.getDeliveryDate();
+			}
+					
+			result += " " + temp.getDelivery_status() + "\r\n"
+					+ "            </div>\r\n" + "          </div>\r\n" + "          <hr class=\"line-gray\" />";
+
+		}
+		String[] params = {String.valueOf(memberNo)};
+		result += GeneralFunctions.renderPageButtons(section, numForPage, totalDoneReviewsNum, "fn_loadDoneReviews", params);
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping("/mypage/availableReviews.do")
+	public String getAvailableReviews(HttpServletRequest request) throws Exception{
+		String result = "";
+		Map pagingMap = GeneralFunctions.getPagingMap(request,5);
+		List<OrderVO> availableReviewList = mypageService.selectAvailableReviewListWithPagingMap(pagingMap);
+
+		int memberNo = Integer.parseInt(pagingMap.get("memberNo").toString());
+		int section = Integer.parseInt(pagingMap.get("section").toString());
+		int totalAvailableReviewsNum = mypageService.selectTotalAvailableReviewsNum(memberNo);
+		int numForPage = Integer.parseInt(pagingMap.get("numForPage").toString());
+		for (int i = 0; i < availableReviewList.size(); i++) {
+			OrderVO temp = availableReviewList.get(i);
+
+			result += "<div class=\"row\">\r\n"
+					+ "            <div class=\"col-md-3\">\r\n"
+					+ "              <img\r\n"
+					+ "                src=\""
+					+ request.getContextPath()
+					+ "/download.do?imageFileName="
+					+ temp.getGoodsImg()
+					+ "&path=goodsNo"
+					+ temp.getGoodsNo()
+					+ "\"\r\n"
+					+ "              />\r\n"
+					+ "            </div>\r\n"
+					+ "            <div class=\"col-md textsize-2 textbold\">\r\n"
+					+ "              "
+					+ temp.getGoodsName()
+					+ " "
+					+ temp.getGoods_qty()
+					+ "개 <br />\r\n"
+					+ "              ";
+			if (temp.getDeliveryDate()!=null && temp.getDeliveryDate().toString().trim() != "null") {
+				result 
+				+= temp.getDeliveryDate();
+			}
+			result+=
+					 " "
+					+ temp.getDelivery_status()
+					+ "\r\n"
+					+ "            </div>\r\n"
+					+ "            <div class=\"col-md textsize-2 textbold\">\r\n"
+					+ "              <button\r\n"
+					+ "                type=\"button\"\r\n"
+					+ "                onclick=\"location.href='"
+					+ "${contextPath}"
+					+ "/review/writeReview.do?order_seqNo="
+					+ "${item.order_seqNo}"
+					+ "'\"\r\n"
+					+ "              >\r\n"
+					+ "                리뷰작성\r\n"
+					+ "              </button>\r\n"
+					+ "            </div>\r\n"
+					+ "          </div>\r\n"
+					+ "\r\n"
+					+ "          <hr class=\"line-gray\" />"
+					;
+
+		}
+		String[] params = {String.valueOf(memberNo)};
+		result += GeneralFunctions.renderPageButtons(section, numForPage, totalAvailableReviewsNum, "fn_loadAvailableReviews", params);
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping("/mypage/selectCoupon.do")
+	public Map selectCoupon(HttpServletRequest request){
+		Map condMap = GeneralFileUploader.getParameterMap(request);
+		HttpSession session = request.getSession();
+		Map result = new HashMap();
+		
+		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
+		System.out.println("condMap : "+condMap);
+		try {
+			condMap.put("memberNo", member.getMemberNo());
+			result = mypageService.selectCouponByCouponNoAndMemberNo(condMap);
+			result.put("result", "success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = new HashMap();
+			result.put("result", "fail");
+		}
+		System.out.println(result);
+		return result;
+		
+		
+	} 
+	
 }
